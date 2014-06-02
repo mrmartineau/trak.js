@@ -23,7 +23,7 @@
    HREF: Uses window.location.href
    <a href="#" data-trak='{"category":"Rating","action":"href","label":"Up"}'>link</a>
    ========================================================================== */
-;(function(KO) {
+;(function(Trak) {
 	Trak = {
 
 		clean : function(str) {
