@@ -10,8 +10,8 @@ Trak.event('category', 'action', 'label');
 Trak.event('category', 'action', 'label', value); // value is an integer
 Trak.event('category', 'action', 'label', value, nonInteraction); // nonInteraction is an integer
 ```
-### Example:
-`Trak.event('engagement', 'signpost', 'href');
+##### Example:
+`Trak.event('engagement', 'signpost', 'href');`
 
 ### Data attr implementation:
 ```js
@@ -21,7 +21,7 @@ Trak.event('category', 'action', 'label', value, nonInteraction); // nonInteract
 #### Data-attr wildcards:
 Wildcards can be used to specify certain options like the page title or url. 
 ##### HREF: Uses window.location.href
-`<a href="#" data-trak='{"category":"Rating","action":"href","label":"Up"}'>link</a>``
+`<a href="#" data-trak='{"category":"Rating","action":"href","label":"Up"}'>link</a>`
 
 ##### TITLE: Uses document.title
 `<a href="#" data-trak='{"category":"Rating","action":"href","label":"title"}'>link</a>`
@@ -37,11 +37,14 @@ clean : function(str) {
 }
 ```
 **Default**: `'_'`
+
 **Alternatives**: Anything you like, preferably a hyphen
 
 ### Trak.options.trackType
 Use this to change your default tracking provider.
+
 **Default**: `'ga'`
+
 **Alternatives**: `'gaq'`
 
 ## Which tracking API's are used?
