@@ -43,14 +43,20 @@
 		},
 
 		eventTag : function() {
-			$('[data-trak]').on('click', function(e) {
-				var options  = $(this).data();
-				var category = options.trak.category === 'href' ? window.location.href : options.trak.category;
-				var action   = options.trak.action === 'href' ? window.location.href : options.trak.action;
-				var label    = options.trak.label === 'href' ? window.location.href : options.trak.label;
+			var trakElements = document.querySelectorAll('[data-trak]');
+			for (var i = 0; i < trakElements.length ; i++) {
+				trakElements[i].addEventListener('click', dataAttrEvent, true);
+			}
 
+			function dataAttrEvent() {
+				var options  = JSON.parse(this.getAttribute("data-trak"));
+				var category = options.category === 'href' ? window.location.href : options.category;
+				var action   = options.action === 'href' ? window.location.href : options.action;
+				var label    = options.label === 'href' ? window.location.href : options.label;
+
+				// console.log('Clicked', options, category, action, label);
 				Trak.event(category, action, label);
-			});
+			}
 		}
 	};
 })(window.Trak = window.Trak || {});
