@@ -1,24 +1,6 @@
 /* ==========================================================================
 	 Trak - Universal event tracking API
-
-	 ### JS Usage:
-	 Trak.event('category', 'action');
-	 Trak.event('category', 'action', 'label');
-	 Trak.event('category', 'action', 'label', value); // value is an integer
-	 Trak.event('category', 'action', 'label', value, nonInteraction); // nonInteraction is an integer
-
-	 ##### JS Example:
-	 Trak.event('help', 'tool_dl', this.title);
-
-	 ### Data attribute usage:
-	 <a href="#" data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}'>link</a>
-
-	 ##### Data attribute wildcards:
-	 HREF: Uses window.location.href
-	 <a href="#" data-trak='{"category":"Rating","action":"href","label":"Up"}'>link</a>
-
-	 TITLE: Uses document.title
-	 <a href="#" data-trak='{"category":"Rating","action":"href","label":"title"}'>link</a>
+	 https://github.com/tmwagency/trak.js/
 	 ========================================================================== */
 
 function Trak() {
@@ -138,6 +120,5 @@ Trak.options = {
 
 
 document.addEventListener('DOMContentLoaded', function(e) {
-	console.log("DOM fully loaded and parsed");
 	Trak();
 });
