@@ -17,23 +17,31 @@ Trak.event('category', 'action', 'label', value); // value is an integer
 Trak.event('category', 'action', 'label', value, nonInteraction); // nonInteraction is an integer
 ```
 ##### Example:
-`Trak.event('engagement', 'signpost', 'href');`
+`Trak.event('engagement', 'signpost', 'page.href');`
 
 ### Data attr implementation:
-```js
+```html
 <a href="#" data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}'>link</a>
 ```
 
 #### Data-attr wildcards:
 Wildcards can be used to specify certain options like the page title or url. 
 ##### page.href: Uses `window.location.href`
-`<a href="#" data-trak='{"category":"Rating","action":"page.href","label":"Up"}'>link</a>` 
+```html
+<a href="#" data-trak='{"category":"Rating","action":"page.href","label":"Up"}'>link</a>
+``` 
 ##### page.title: Uses `document.title`
-`<a href="#" data-trak='{"category":"Rating","action":"page.title","label":"Up"}'>link</a>`
+```html
+<a href="#" data-trak='{"category":"Rating","action":"page.title","label":"Up"}'>link</a>
+```
 ##### link.href: Uses `this.href`
-`<a href="#" data-trak='{"category":"Rating","action":"link.href","label":"Up"}'>link</a>` 
+```html
+<a href="#" data-trak='{"category":"Rating","action":"link.href","label":"Up"}'>link</a>
+```
 ##### link.title: Uses `this.title`
-`<a href="#" data-trak='{"category":"Rating","action":"link.title","label":"Up"}'>link</a>`
+```html
+<a href="#" data-trak='{"category":"Rating","action":"link.title","label":"Up"}'>link</a>
+```
 
 --- 
 
