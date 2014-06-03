@@ -20,11 +20,14 @@ Trak.event('category', 'action', 'label', value, nonInteraction); // nonInteract
 
 #### Data-attr wildcards:
 Wildcards can be used to specify certain options like the page title or url. 
-##### HREF: Uses window.location.href
-`<a href="#" data-trak='{"category":"Rating","action":"href","label":"Up"}'>link</a>`
-
-##### TITLE: Uses document.title
-`<a href="#" data-trak='{"category":"Rating","action":"href","label":"title"}'>link</a>`
+##### page.href: Uses window.location.href
+`<a href="#" data-trak='{"category":"Rating","action":"page.href","label":"Up"}'>link</a>` 
+##### page.title: Uses document.title
+`<a href="#" data-trak='{"category":"Rating","action":"page.title","label":"Up"}'>link</a>`
+##### link.href: Uses this.href
+`<a href="#" data-trak='{"category":"Rating","action":"link.href","label":"Up"}'>link</a>` 
+##### link.title: Uses this.title
+`<a href="#" data-trak='{"category":"Rating","action":"link.title","label":"Up"}'>link</a>`
 
 ## Options
 Various default **trak.js** options can be overridden:

@@ -1,93 +1,143 @@
 /* ==========================================================================
-   Trak - Universal event tracking API
+	 Trak - Universal event tracking API
 
-   # Default implementation uses Google Analytics:
-   https://developers.google.com/analytics/devguides/collection/analyticsjs/
+	 ### JS Usage:
+	 Trak.event('category', 'action');
+	 Trak.event('category', 'action', 'label');
+	 Trak.event('category', 'action', 'label', value); // value is an integer
+	 Trak.event('category', 'action', 'label', value, nonInteraction); // nonInteraction is an integer
 
-   ## Page and event tracking
-   https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+	 ##### JS Example:
+	 Trak.event('help', 'tool_dl', this.title);
 
-   ### Usage:
-   Trak.event('category', 'action');
-   Trak.event('category', 'action', 'label');
-   Trak.event('category', 'action', 'label', value); // value is an integer
-   Trak.event('category', 'action', 'label', value, nonInteraction); // nonInteraction is an integer
+	 ### Data attribute usage:
+	 <a href="#" data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}'>link</a>
 
-   ### Example:
-   Trak.event('help', 'tool_dl', this.title);
+	 ##### Data attribute wildcards:
+	 HREF: Uses window.location.href
+	 <a href="#" data-trak='{"category":"Rating","action":"href","label":"Up"}'>link</a>
 
-   Another usage:
-   <a href="#" data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}'>link</a>
+	 TITLE: Uses document.title
+	 <a href="#" data-trak='{"category":"Rating","action":"href","label":"title"}'>link</a>
+	 ========================================================================== */
 
-   Using wildcards:
-   HREF: Uses window.location.href
-   <a href="#" data-trak='{"category":"Rating","action":"href","label":"Up"}'>link</a>
+function Trak() {
+	console.log('Trak loaded');
 
-   TITLE: Uses document.title
-   <a href="#" data-trak='{"category":"Rating","action":"href","label":"title"}'>link</a>
-   ========================================================================== */
-;(function(Trak) {
-	Trak = {
+	var trakElements = document.querySelectorAll('[data-trak]');
+	// console.log(trakElements);
+	for (var i = 0; i < trakElements.length ; i++) {
+		trakElements[i].addEventListener('click', dataAttrEvent, true);
+	}
 
-		options : {
-			delimeter : '_', // Trak.options.delimeter = '-'
-			trackType : 'ga' // Trak.options.trackType = 'ga' Options
-		},
+	function dataAttrEvent() {
+		var _options = JSON.parse(this.getAttribute("data-trak"));
+		var _category;
+		var _action;
+		var _label;
 
-		clean : function(str) {
-			return str.toString().replace(/\s|'|"/g, this.options.delimeter).toLowerCase();
-		},
-
-		event : function (category, action, label, value, nonInteraction) {
-			value          = 0 || value;
-			nonInteraction = false || nonInteraction;
-
-			if (Trak.options.trackType === 'ga' && typeof ga !== 'undefined') {
-				ga('send', 'event', this.clean(category), this.clean(action), this.clean(label), value, {'nonInteraction': nonInteraction});
-
-				/**
-				 * Could use the below instead:
-				 *
-				ga('send', {
-					'hitType': 'event',
-					'eventCategory': this.clean(category),
-					'eventAction': this.clean(action),
-					'eventLabel': this.clean(label),
-					'eventValue': value,
-					{
-						'nonInteraction': nonInteraction
-					}
-				});
-				*/
-			}
-
-			if (Trak.options.trackType === 'gaq' && typeof _gaq !== 'undefined') {
-				_gaq.push(['_trackEvent', this.clean(category), this.clean(action), this.clean(label), value]);
-			}
-
-			if (Trak.options.trackType === 'gtm' && typeof gtm !== 'undefined') { // use _gaq for old style
-				gtm('send', 'event', this.clean(category), this.clean(action), this.clean(label), value, {'nonInteraction': nonInteraction});
-			}
-
-			/**
-			 * Add any others that you would like here:
-			 */
-		},
-
-		eventTag : function() {
-			var trakElements = document.querySelectorAll('[data-trak]');
-			for (var i = 0; i < trakElements.length ; i++) {
-				trakElements[i].addEventListener('click', dataAttrEvent, true);
-			}
-
-			function dataAttrEvent() {
-				var options  = JSON.parse(this.getAttribute("data-trak"));
-				var category = options.category === 'href' ? window.location.href : this.clean(options.category);
-				var action   = options.action === 'href' ? window.location.href : this.clean(options.action);
-				var label    = options.label === 'href' ? window.location.href : this.clean(options.label);
-
-				Trak.event(category, action, label);
-			}
+		switch(_options.category) {
+			case 'page.title':
+				_category = document.title;
+				break;
+			case 'page.href':
+				_category = window.location.href;
+				break;
+			case 'link.href':
+				_category = this.href;
+				break;
+			case 'link.title':
+				_category = this.title;
+				break;
+			default:
+				_category = Trak.clean(_options.category);
+				break;
 		}
-	};
-})(window.Trak = window.Trak || {});
+
+		switch(_options.action) {
+			case 'page.title':
+				_action = document.title;
+				break;
+			case 'page.href':
+				_action = window.location.href;
+				break;
+			case 'link.href':
+				_action = this.href;
+				break;
+			case 'link.title':
+				_action = this.title;
+				break;
+			default:
+				_action = Trak.clean(_options.action);
+				break;
+		}
+
+		switch(_options.label) {
+			case 'page.title':
+				_label = document.title;
+				break;
+			case 'page.href':
+				_label = window.location.href;
+				break;
+			case 'link.href':
+				_label = this.href;
+				break;
+			case 'link.title':
+				_label = this.title;
+				break;
+			default:
+				_label = Trak.clean(_options.label);
+				break;
+		}
+		// console.log(_category, _action, _label);
+		Trak.event(_category, _action, _label);
+	}
+}
+
+Trak.clean = function(str) {
+	return str.toString().replace(/\s|'|"/g, this.options.delimeter).toLowerCase();
+};
+
+Trak.event = function(category, action, label, value, nonInteraction) {
+	value          = 0 || value;
+	nonInteraction = false || nonInteraction;
+
+	if (Trak.options.trackType === 'ga' && typeof ga !== 'undefined') {
+		ga('send', 'event', Trak.clean(category), Trak.clean(action), Trak.clean(label), value, {'nonInteraction': nonInteraction});
+
+		/**
+		 * Could use the below instead:
+		 *
+		ga('send', {
+			'hitType': 'event',
+			'eventCategory': Trak.clean(category),
+			'eventAction': Trak.clean(action),
+			'eventLabel': Trak.clean(label),
+			'eventValue': value,
+			{
+				'nonInteraction': nonInteraction
+			}
+		});
+		*/
+	}
+
+	if (Trak.options.trackType === '_gaq' && typeof _gaq !== 'undefined') {
+		_gaq.push(['_trackEvent', Trak.clean(category), Trak.clean(action), Trak.clean(label), value]);
+	}
+
+	/**
+	 * Add any others that you would like here:
+	 */
+};
+
+
+Trak.options = {
+	delimeter : '_', // Trak.options.delimeter = '-'
+	trackType : 'ga' // Trak.options.trackType = 'ga' Options
+};
+
+
+document.addEventListener('DOMContentLoaded', function(e) {
+	console.log("DOM fully loaded and parsed");
+	Trak();
+});
