@@ -1,7 +1,7 @@
 # Trak - Universal event tracking API
 
 ## Usage:
-Include fastclick.js in your JavaScript bundle or add it to your HTML page like this:
+Include trak.js in your JavaScript bundle or add it to your HTML page like this:
 ```js
 <script type='application/javascript' src='/path/to/trak.js'></script>
 ```
