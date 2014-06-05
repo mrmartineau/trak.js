@@ -7,6 +7,7 @@
 
 function Trak() {
 	var trakElements = document.querySelectorAll('[data-trak]');
+
 	for (var i = 0; i < trakElements.length ; i++) {
 		trakElements[i].addEventListener('click', dataAttrEvent, true);
 	}
@@ -44,9 +45,9 @@ function Trak() {
 	 */
 	function dataAttrEvent() {
 		var _options  = JSON.parse(this.getAttribute("data-trak"));
-		var _category = wildcard(_options.category);
-		var _action   = wildcard(_options.action);
-		var _label    = wildcard(_options.label);
+		var _category = wildcard.call(this, _options.category);
+		var _action   = wildcard.call(this, _options.action);
+		var _label    = wildcard.call(this, _options.label);
 		Trak.event(_category, _action, _label);
 	}
 }
