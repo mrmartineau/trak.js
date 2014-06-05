@@ -1,0 +1,84 @@
+<html>
+	<head>
+		<title>trak.js demo</title>
+		<link rel="stylesheet" href="http://tmwagency.github.io/kickoff/css/kickoff.css">
+	</head>
+	<body>
+	<div class="g-container">
+		<h1>trak.js demo area</h1>
+		<p>To test this, please install the <a href="https://chrome.google.com/webstore/detail/google-analytics-debugger/jnkmfdileelhofjcijamephohjechhna">Google Analytics debugger</a> on the Chrome Web Store</p>
+		<h4>Data attributes:</h4>
+		<h5>Standard usage</h5>
+		<p>This is when you define any string as the category, action or label</p>
+		<ul>
+			<li>
+				Category: test_action, Action: test_action, Label: test_label <br>
+				<a href="#pagehref" title="1 title" data-trak='{"category":"Test category","action":"Test action","label":"Test label"}'>Data attr test #1</a>
+			</li>
+		</ul>
+
+		<h5>Wildcard usage</h5>
+		<ul>
+			<li>
+				Category: Page title, Action: window.location.href, Label: this is a label <br>
+				<a href="#pagehref" title="1 title" data-trak='{"category":"page.title","action":"page.href","label":"this is a label"}'>Data attr test #2</a>
+			</li>
+			<li>
+				Category: Link title, Action: #linkhref, Label: this is a label <br>
+				<a href="#linkhref" title="Link title" data-trak='{"category":"link.title","action":"link.href","label":"this is a label"}'>Data attr test #3</a>
+			</li>
+		</ul>
+
+
+		<h4>JS implementation:</h4>
+		<ul>
+			<li>
+				Category: test_category_(using_js), Action: test_action_(using_js), Label: test_label_(using_js) <br>
+				<a href="#pagehref" id="js-test1" title="1 title">JS Test #1</a>
+			</li>
+			<li>
+				Category: page.href, Action: page.title, Label: test_label_(using_js) <br>
+				<a href="#pagehref" id="js-test2" title="1 title">JS Test #2</a>
+			</li>
+			<li>
+				Category: link.href, Action: link.title, Label: test_label_(using_js) <br>
+				<a href="#pagehref" id="js-test3" title="1 title">JS Test #3</a>
+			</li>
+		</ul>
+
+
+
+		</div>
+
+		<script src="../trak.js"></script>
+		<script>
+				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+				ga('create', 'UA-51572104-1', 'tmwagency.github.io', {
+					'cookieDomain': 'none'
+				});
+				ga('send', 'pageview');
+		</script>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function(e) {
+				var test1 = document.querySelector('#js-test1');
+				var test2 = document.querySelector('#js-test2');
+				var test3 = document.querySelector('#js-test3');
+
+				test1.addEventListener('click', function() {
+					Trak.event('Test action (using js)', 'Test category (using js)', 'Test label (using js)');
+				}, true);
+				test2.addEventListener('click', function() {
+					Trak.event(window.location.href, document.title, 'Test label (using js)');
+				}, true);
+				test3.addEventListener('click', function() {
+					Trak.event(this.href, this.title, 'Test label (using js)');
+				}, true);
+			});
+		</script>
+	</body>
+</html>

@@ -1,62 +1,120 @@
-/* ==========================================================================
-   Trak - Universal event tracking API
+/**
+ * @preserve Trak - Universal event tracking API
+ *
+ * @version 0.1.0
+ * @license MIT License (see LICENSE)
+ */
 
-   # Default implementation uses is Google Analytics:
-   https://developers.google.com/analytics/devguides/collection/analyticsjs/
+function Trak() {
+	var trakElements = document.querySelectorAll('[data-trak]');
 
-   ## Page and event tracking
-   https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+	for (var i = 0; i < trakElements.length ; i++) {
+		trakElements[i].addEventListener('click', dataAttrEvent, true);
+	}
 
-   ### Usage:
-   Trak.event('category', 'action');
-   Trak.event('category', 'action', 'label');
-   Trak.event('category', 'action', 'label', value); // value is an integer
-   Trak.event('category', 'action', 'label', value, nonInteraction); // nonInteraction is an integer
-
-   ### Example:
-   Trak.event('help', 'tool_dl', this.title);
-
-   Another usage:
-   <a href="#" data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}'>link</a>
-
-   Using wildcards:
-   HREF: Uses window.location.href
-   <a href="#" data-trak='{"category":"Rating","action":"href","label":"Up"}'>link</a>
-   ========================================================================== */
-;(function(Trak) {
-	Trak = {
-
-		clean : function(str) {
-			return str.toString().replace(/\s|'|"/g, '_').toLowerCase();
-		},
-
-		event : function (category, action, label, value, nonInteraction) {
-			value          = 0 || value;
-			nonInteraction = 0 || nonInteraction;
-
-			if (typeof(ga) !== 'undefined') { // use _gaq for old style
-				ga('send', 'event', this.clean(category), this.clean(action), this.clean(label), value, {'nonInteraction': nonInteraction});
-
-				// Old style:
-				//_gaq.push(['_trackEvent', this.clean(category), this.clean(action), this.clean(label), value]);
-			}
-		},
-
-		eventTag : function() {
-			var trakElements = document.querySelectorAll('[data-trak]');
-			for (var i = 0; i < trakElements.length ; i++) {
-				trakElements[i].addEventListener('click', dataAttrEvent, true);
-			}
-
-			function dataAttrEvent() {
-				var options  = JSON.parse(this.getAttribute("data-trak"));
-				var category = options.category === 'href' ? window.location.href : options.category;
-				var action   = options.action === 'href' ? window.location.href : options.action;
-				var label    = options.label === 'href' ? window.location.href : options.label;
-
-				// console.log('Clicked', options, category, action, label);
-				Trak.event(category, action, label);
-			}
+	/**
+	 * Function to convert wildcards into real values
+	 * @param  string str
+	 * @return string     The converted ouput from str
+	 */
+	function wildcard(str) {
+		switch(str) {
+			case 'page.title':
+				output = document.title;
+				break;
+			case 'page.href':
+				output = window.location.href;
+				break;
+			case 'link.href':
+				output = this.href;
+				break;
+			case 'link.title':
+				output = this.title;
+				break;
+			default:
+				output = Trak.clean(str);
+				break;
 		}
-	};
-})(window.Trak = window.Trak || {});
+		return output;
+	}
+
+	/**
+	 * dataAttrEvent
+	 * This is called when any element with the [data-trak] attribute is clicked.
+	 * It calls Trak.event()
+	 */
+	function dataAttrEvent() {
+		var _options  = JSON.parse(this.getAttribute("data-trak"));
+		var _category = wildcard.call(this, _options.category);
+		var _action   = wildcard.call(this, _options.action);
+		var _label    = wildcard.call(this, _options.label);
+		Trak.event(_category, _action, _label);
+	}
+}
+/**
+ * Trak.clean()
+ * Cleans the input replacing spaces with a specified delimeter (see Trak.options) and converts to lower case
+ * @param  string str
+ * @return string cleaned string
+ */
+Trak.clean = function(str) {
+	return str.toString().replace(/\s|'|"/g, this.options.delimeter).toLowerCase();
+};
+
+
+/**
+ * Trak.event()
+ * Wrapper function for various analytics APIs.
+ * Enables you to add more than one, or change mid-project without changing anything else in your code
+ * @param  string category        The category of the tracking event
+ * @param  string action          The action of the tracking event
+ * @param  string label           The label of the tracking event
+ * @param  number value           Use this to assign a numerical value to a tracked page object
+ * @param  boolean nonInteraction Used if Trak.options.trackType = 'ga': you might want to send an event, but not impact your bounce rate.
+ */
+Trak.event = function(category, action, label, value, nonInteraction) {
+	value          = value || 0;
+	nonInteraction = nonInteraction || false;
+
+	if (Trak.options.trackType === 'ga' && typeof ga !== 'undefined') {
+		ga('send', 'event', Trak.clean(category), Trak.clean(action), Trak.clean(label), value, {'nonInteraction': nonInteraction});
+
+		/**
+		 * Could use the below instead:
+		 *
+		ga('send', {
+			'hitType': 'event',
+			'eventCategory': Trak.clean(category),
+			'eventAction': Trak.clean(action),
+			'eventLabel': Trak.clean(label),
+			'eventValue': value,
+			{
+				'nonInteraction': nonInteraction
+			}
+		});
+		*/
+	} else if (Trak.options.trackType === '_gaq' && typeof _gaq !== 'undefined') {
+		_gaq.push(['_trackEvent', Trak.clean(category), Trak.clean(action), Trak.clean(label), value]);
+	}
+
+	/**
+	 * Add any others that you would like here:
+	 */
+
+};
+
+/**
+ * Trak.options
+ * These are the default options for trak.js.
+ * To override these, you have to reassign the values to
+ * @type {Object}
+ */
+Trak.options = {
+	delimeter : '_', // Trak.options.delimeter = '-'
+	trackType : 'ga' // Trak.options.trackType = 'ga' Available options: ga, _gaq
+};
+
+
+document.addEventListener('DOMContentLoaded', function(e) {
+	Trak();
+});
