@@ -49,22 +49,15 @@ Wildcards can be used to specify certain options like the page title or url.
 Various default **trak.js** options can be overridden:
 
 ### Trak.options.delimeter
-**trak.js** includes a cleaning method to normalise the arguments that are passed to it.
-```js
-clean : function(str) {
-  return str.toString().replace(/\s|'|"/g, this.options.delimeter).toLowerCase();
-}
-```
-**Default**: `'_'`
-
-**Alternatives**: Anything you like, preferably a hyphen
+**trak.js** includes a cleaning method to normalise the arguments that are passed to it. Spaces are converted to an underscore by default but can be overridden by reassigning this value.
+* **Default**: `'_'`
+* **Alternatives**: Anything you like
 
 ### Trak.options.trackType
 Use this to change your default tracking provider.
 
-**Default**: `'ga'`
-
-**Alternatives**: `'gaq'`
+* **Default**: `'ga'`
+* **Alternatives**: `'_gaq'`
 
 ## Which tracking API's are used?
 The default implementation uses latest version of Google Analytics (`ga.js`) but **trak.js** also supports the older `_gaq` type. For more information about either, please visit https://developers.google.com/analytics/devguides/collection/analyticsjs/
