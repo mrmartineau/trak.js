@@ -20,12 +20,19 @@
 		<h5>Wildcard usage</h5>
 		<ul>
 			<li>
+				<h6>page.title &amp; page.href</h6>
 				Category: Page title, Action: window.location.href, Label: this is a label <br>
 				<a href="#pagehref" title="1 title" data-trak='{"category":"page.title","action":"page.href","label":"this is a label"}'>Data attr test #2</a>
 			</li>
 			<li>
+				<h6>link.title &amp; link.href</h6>
 				Category: Link title, Action: #linkhref, Label: this is a label <br>
 				<a href="#linkhref" title="Link title" data-trak='{"category":"link.title","action":"link.href","label":"this is a label"}'>Data attr test #3</a>
+			</li>
+			<li>
+				<h6>referrer</h6>
+				Category: document.referrer, Action: #linkhref, Label: this is a label <br>
+				<a href="#linkhref" title="Link title" data-trak='{"category":"referrer","action":"link.href","label":"this is a label"}'>Data attr test #4</a>
 			</li>
 		</ul>
 
@@ -44,13 +51,17 @@
 				Category: link.href, Action: link.title, Label: test_label_(using_js) <br>
 				<a href="#pagehref" id="js-test3" title="1 title">JS Test #3</a>
 			</li>
+			<li>
+				Category: document.referrer, Action: link.title, Label: test_label_(using_js) <br>
+				<a href="#pagehref" id="js-test4" title="1 title">JS Test #4</a>
+			</li>
 		</ul>
 
 
 
 		</div>
 
-		<script src="../src/trak.js"></script>
+		<script src="../dist/trak.min.js"></script>
 		<script>
 				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -60,27 +71,59 @@
 				ga('create', 'UA-51572104-1', 'tmwagency.github.io', {
 					'cookieDomain': 'none'
 				});
-				ga('send', 'pageview');
+
+				var _gaq = _gaq || [];
+				_gaq.push(['_setAccount', 'UA-XXXXX-X']);
+				(function() {
+					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				})();
 		</script>
+
+		<!-- Google Tag Manager -->
+		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-XXXX"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-1234');</script>
+		<!-- End Google Tag Manager -->
+
 
 		<script>
 			document.addEventListener('DOMContentLoaded', function(e) {
 				trak();
 
-
 				var test1 = document.querySelector('#js-test1');
 				var test2 = document.querySelector('#js-test2');
 				var test3 = document.querySelector('#js-test3');
+				var test4 = document.querySelector('#js-test4');
 
 				test1.addEventListener('click', function() {
-					Trak.event('Test action (using js)', 'Test category (using js)', 'Test label (using js)');
+					trak.event('Test action (using js)', 'Test category (using js)', 'Test label (using js)');
 				}, true);
 				test2.addEventListener('click', function() {
-					Trak.event(window.location.href, document.title, 'Test label (using js)');
+					trak.event(window.location.href, document.title, 'Test label (using js)');
 				}, true);
 				test3.addEventListener('click', function() {
-					Trak.event(this.href, this.title, 'Test label (using js)');
+					trak.event(this.href, this.title, 'Test label (using js)');
 				}, true);
+				test4.addEventListener('click', function() {
+					trak.event(document.referrer, this.title, 'Test label (using js)');
+				}, true);
+
+				/**
+				 * Change some of the default options
+				 */
+				// trak.options.clean = false;
+				// trak.options.trackType = 'gtm';
+				// Add more tracking codes
+				trak.options.additionalTypes = function() {
+					//UDM.evq.push(['trackEvent', trak.clean(category), trak.clean(action)]); // trak.clean(label)
+					console.log('Fire additional event');
+				}
 			});
 		</script>
 	</body>
