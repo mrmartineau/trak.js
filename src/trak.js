@@ -6,10 +6,29 @@
  */
 
 function Trak() {
-	var trakElements = document.querySelectorAll('[data-trak]');
+	'use strict';
 
+	/**
+	 * dataAttrEvent
+	 * This is called when any element with the [data-trak] attribute is clicked.
+	 * It calls Trak.event()
+	 */
+	function dataAttrEvent() {
+		var _options  = JSON.parse(this.getAttribute('data-trak'));
+		var _category = wildcard.call(this, _options.category);
+		var _action   = wildcard.call(this, _options.action);
+		var _label    = wildcard.call(this, _options.label);
+		Trak.event(_category, _action, _label);
+	}
+
+
+	var trakElements = document.querySelectorAll('[data-trak]');
 	for (var i = 0; i < trakElements.length ; i++) {
-		trakElements[i].addEventListener('click', dataAttrEvent, true);
+		if (trakElements[i].addEventListener) {
+			trakElements[i].addEventListener('click', dataAttrEvent, true);
+		} else if (trakElements[i].attachEvent) {
+			trakElements[i].attachEvent('onclick', dataAttrEvent);
+		}
 	}
 
 	/**
@@ -18,6 +37,8 @@ function Trak() {
 	 * @return string     The converted ouput from str
 	 */
 	function wildcard(str) {
+		var output;
+
 		switch(str) {
 			case 'page.title':
 				output = document.title;
@@ -36,19 +57,6 @@ function Trak() {
 				break;
 		}
 		return output;
-	}
-
-	/**
-	 * dataAttrEvent
-	 * This is called when any element with the [data-trak] attribute is clicked.
-	 * It calls Trak.event()
-	 */
-	function dataAttrEvent() {
-		var _options  = JSON.parse(this.getAttribute("data-trak"));
-		var _category = wildcard.call(this, _options.category);
-		var _action   = wildcard.call(this, _options.action);
-		var _label    = wildcard.call(this, _options.label);
-		Trak.event(_category, _action, _label);
 	}
 }
 /**
@@ -111,10 +119,13 @@ Trak.event = function(category, action, label, value, nonInteraction) {
  */
 Trak.options = {
 	delimeter : '_', // Trak.options.delimeter = '-'
-	trackType : 'ga' // Trak.options.trackType = 'ga' Available options: ga, _gaq
+	trackType : 'ga', // Trak.options.trackType = 'ga' Available options: ga, _gaq
+	additionalTypes : function() {
+		//_gaq.push(['_trackEvent', Trak.clean(category), Trak.clean(action), Trak.clean(label), value]);
+	}
 };
 
 
 document.addEventListener('DOMContentLoaded', function(e) {
-	Trak();
+	new Trak();
 });
