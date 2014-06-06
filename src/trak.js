@@ -71,7 +71,11 @@ function trak() {
  * @return string cleaned string
  */
 trak.clean = function(str) {
+	if (!trak.options.clean) {
+		return str;
+	} else {
 	return str.toString().replace(/\s|'|"/g, this.options.delimeter).toLowerCase();
+	}
 };
 
 
@@ -113,7 +117,11 @@ trak.event = function(category, action, label, value, nonInteraction) {
 	/**
 	 * Add any others that you would like here:
 	 */
+	trak.options.additionalTypes();
 
+	if (trak.options.debug) {
+		console.log('Debug:\n Category:', trak.clean(category), '\n Action:', trak.clean(action), '\n abel:', trak.clean(label), '\n GTM Event name:', eventName);
+	}
 };
 
 /**
@@ -123,9 +131,9 @@ trak.event = function(category, action, label, value, nonInteraction) {
  * @type {Object}
  */
 trak.options = {
+	clean     : true, // trak.options.clean     = false
 	delimeter : '_', // trak.options.delimeter = '-'
-	trackType : 'ga', // trak.options.trackType = 'ga' Available options: ga, _gaq
-	additionalTypes : function() {
-		//_gaq.push(['_trackEvent', trak.clean(category), trak.clean(action), trak.clean(label), value]);
-	}
+	trackType : 'ga', // trak.options.trackType = 'ga' Available options: ga, _gaq & gtm
+	additionalTypes : undefined,
+	debug     : true
 };
