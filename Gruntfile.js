@@ -97,9 +97,8 @@ module.exports = function(grunt) {
 		'watch'
 	]);
 
-	// grunt.registerTask('travis', [
-	// 	'jshint',
-	// 	'jasmine'
-	// ]);
+	grunt.registerTask('travis', [
+		'jshint'
+	]);
 
 };
