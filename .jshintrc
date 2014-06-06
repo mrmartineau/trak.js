@@ -21,6 +21,7 @@
   "globals": {
     "define": true,
     "ga": true,
+    "dataLayer": true,
     "_gaq": true
   }
 }
