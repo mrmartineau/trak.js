@@ -1,4 +1,4 @@
-# Trak - Universal event tracking API
+# trak.js - Universal event tracking API
 
 ## Usage:
 Include trak.js in your JavaScript bundle or add it to your HTML page like this:
@@ -11,13 +11,13 @@ There are two main ways to use **trak.js**, in you js code or as data attributes
 
 ### JS implementation:
 ```js
-Trak.event('category', 'action');
-Trak.event('category', 'action', 'label');
-Trak.event('category', 'action', 'label', value); // value is an integer
-Trak.event('category', 'action', 'label', value, nonInteraction); // nonInteraction is an integer
+trak.event('category', 'action');
+trak.event('category', 'action', 'label');
+trak.event('category', 'action', 'label', value); // value is an integer
+trak.event('category', 'action', 'label', value, nonInteraction); // nonInteraction is an integer
 ```
 ##### Example:
-`Trak.event('engagement', 'signpost', 'page.href');`
+`trak.event('engagement', 'signpost', 'page.href');`
 
 ### Data attr implementation:
 ```html
@@ -48,12 +48,12 @@ Wildcards can be used to specify certain options like the page title or url.
 ## Options
 Various default **trak.js** options can be overridden:
 
-### Trak.options.delimeter
+### trak.options.delimeter
 **trak.js** includes a cleaning method to normalise the arguments that are passed to it. Spaces are converted to an underscore by default but can be overridden by reassigning this value.
 * **Default**: `'_'`
 * **Alternatives**: Anything you like
 
-### Trak.options.trackType
+### trak.options.trackType
 Use this to change your default tracking provider.
 
 * **Default**: `'ga'`
