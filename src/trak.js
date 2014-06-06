@@ -52,8 +52,11 @@ function trak() {
 			case 'link.title':
 				output = this.title;
 				break;
+			case 'referrer':
+				output = document.referrer ? document.referrer : 'No referrer';
+				break;
 			default:
-				output = trak.clean(str);
+				output = str;
 				break;
 		}
 		return output;
