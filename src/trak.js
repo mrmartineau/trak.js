@@ -1,24 +1,24 @@
 /**
- * @preserve Trak - Universal event tracking API
+ * @preserve trak - Universal event tracking API
  *
  * @version 0.1.0
  * @license MIT License (see LICENSE)
  */
 
-function Trak() {
+function trak() {
 	'use strict';
-
+	console.log('trak loaded');
 	/**
 	 * dataAttrEvent
 	 * This is called when any element with the [data-trak] attribute is clicked.
-	 * It calls Trak.event()
+	 * It calls trak.event()
 	 */
 	function dataAttrEvent() {
 		var _options  = JSON.parse(this.getAttribute('data-trak'));
 		var _category = wildcard.call(this, _options.category);
 		var _action   = wildcard.call(this, _options.action);
 		var _label    = wildcard.call(this, _options.label);
-		Trak.event(_category, _action, _label);
+		trak.event(_category, _action, _label);
 	}
 
 
@@ -53,56 +53,58 @@ function Trak() {
 				output = this.title;
 				break;
 			default:
-				output = Trak.clean(str);
+				output = trak.clean(str);
 				break;
 		}
 		return output;
 	}
 }
+
+
 /**
- * Trak.clean()
- * Cleans the input replacing spaces with a specified delimeter (see Trak.options) and converts to lower case
+ * trak.clean()
+ * Cleans the input replacing spaces with a specified delimeter (see trak.options) and converts to lower case
  * @param  string str
  * @return string cleaned string
  */
-Trak.clean = function(str) {
+trak.clean = function(str) {
 	return str.toString().replace(/\s|'|"/g, this.options.delimeter).toLowerCase();
 };
 
 
 /**
- * Trak.event()
+ * trak.event()
  * Wrapper function for various analytics APIs.
  * Enables you to add more than one, or change mid-project without changing anything else in your code
  * @param  string category        The category of the tracking event
  * @param  string action          The action of the tracking event
  * @param  string label           The label of the tracking event
  * @param  number value           Use this to assign a numerical value to a tracked page object
- * @param  boolean nonInteraction Used if Trak.options.trackType = 'ga': you might want to send an event, but not impact your bounce rate.
+ * @param  boolean nonInteraction Used if trak.options.trackType = 'ga': you might want to send an event, but not impact your bounce rate.
  */
-Trak.event = function(category, action, label, value, nonInteraction) {
+trak.event = function(category, action, label, value, nonInteraction) {
 	value          = value || 0;
 	nonInteraction = nonInteraction || false;
 
-	if (Trak.options.trackType === 'ga' && typeof ga !== 'undefined') {
-		ga('send', 'event', Trak.clean(category), Trak.clean(action), Trak.clean(label), value, {'nonInteraction': nonInteraction});
+	if (trak.options.trackType === 'ga' && typeof ga !== 'undefined') {
+		ga('send', 'event', trak.clean(category), trak.clean(action), trak.clean(label), value, {'nonInteraction': nonInteraction});
 
 		/**
 		 * Could use the below instead:
 		 *
 		ga('send', {
 			'hitType': 'event',
-			'eventCategory': Trak.clean(category),
-			'eventAction': Trak.clean(action),
-			'eventLabel': Trak.clean(label),
+			'eventCategory': trak.clean(category),
+			'eventAction': trak.clean(action),
+			'eventLabel': trak.clean(label),
 			'eventValue': value,
 			{
 				'nonInteraction': nonInteraction
 			}
 		});
 		*/
-	} else if (Trak.options.trackType === '_gaq' && typeof _gaq !== 'undefined') {
-		_gaq.push(['_trackEvent', Trak.clean(category), Trak.clean(action), Trak.clean(label), value]);
+	} else if (trak.options.trackType === '_gaq' && typeof _gaq !== 'undefined') {
+		_gaq.push(['_trackEvent', trak.clean(category), trak.clean(action), trak.clean(label), value]);
 	}
 
 	/**
@@ -112,20 +114,15 @@ Trak.event = function(category, action, label, value, nonInteraction) {
 };
 
 /**
- * Trak.options
+ * trak.options
  * These are the default options for trak.js.
  * To override these, you have to reassign the values to
  * @type {Object}
  */
-Trak.options = {
-	delimeter : '_', // Trak.options.delimeter = '-'
-	trackType : 'ga', // Trak.options.trackType = 'ga' Available options: ga, _gaq
+trak.options = {
+	delimeter : '_', // trak.options.delimeter = '-'
+	trackType : 'ga', // trak.options.trackType = 'ga' Available options: ga, _gaq
 	additionalTypes : function() {
-		//_gaq.push(['_trackEvent', Trak.clean(category), Trak.clean(action), Trak.clean(label), value]);
+		//_gaq.push(['_trackEvent', trak.clean(category), trak.clean(action), trak.clean(label), value]);
 	}
 };
-
-
-document.addEventListener('DOMContentLoaded', function(e) {
-	new Trak();
-});
