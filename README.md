@@ -1,4 +1,6 @@
+[![Build Status](https://travis-ci.org/tmwagency/trak.js.svg)](https://travis-ci.org/tmwagency/trak.js)
 # trak.js - Universal analytics event tracking API
+**trak.js** is a API wrapper for your analytics APIs. By default it uses the Google Universal Analytics but you can override this witht the older ga.js or Google Tag Manager if you wish. You can even add custom event trackers as well as, or instead of GA.
 
 ## Usage:
 Include **trak.js** in your JavaScript bundle or add it to your HTML page like this:
