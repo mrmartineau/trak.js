@@ -3,14 +3,10 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 
-		pkg: require('./package'), // <%=pkg.name%>
+		pkg: require('./package'), // e.g. <%=pkg.name%>
 
 		/**
 		 * Config - Edit this section
-		 * ==========================
-		 * Choose javascript dist filename
-		 * Choose javascript dist location
-		 * Choose javascript files to be uglified
 		 */
 		config : {
 			js : {
@@ -53,10 +49,21 @@ module.exports = function(grunt) {
 			},
 		},
 
+		concat: {
+			dist: {
+				src: '<%= config.js.srcDir %>/<%= config.js.filename %>.js',
+				dest: '<%= config.js.distDir %><%= config.js.filename %>.js',
+			},
+			options: {
+				stripBanners: true,
+				banner: '<%= banner %>'
+			}
+		},
+
 		watch: {
 			js: {
 				files: ['<%= config.js.srcDir %>/<%= config.js.filename %>.js', 'Gruntfile.js'],
-				tasks: ['uglify']
+				tasks: ['uglify', 'concat']
 			},
 		}
 
@@ -74,7 +81,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', [
 		'jshint',
 		'uglify',
-		'copy'
+		'concat'
 	]);
 
 	// grunt.registerTask('travis', [
