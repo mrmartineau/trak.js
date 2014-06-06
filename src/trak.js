@@ -119,8 +119,8 @@ trak.event = function(category, action, label, value, nonInteraction) {
 
 /**
  * trak.options
- * These are the default options for trak.js.
- * To override these, you have to reassign the values to
+ * These are the default options for trak.js
+ * To override them, reassign these values in your code
  * @type {Object}
  */
 trak.options = {
