@@ -1,13 +1,7 @@
-/**
- * @preserve trak - Universal event tracking API
- *
- * @version 0.1.0
- * @license MIT License (see LICENSE)
- */
-
 function trak() {
 	'use strict';
 	console.log('trak loaded');
+
 	/**
 	 * dataAttrEvent
 	 * This is called when any element with the [data-trak] attribute is clicked.
@@ -20,7 +14,6 @@ function trak() {
 		var _label    = wildcard.call(this, _options.label);
 		trak.event(_category, _action, _label);
 	}
-
 
 	var trakElements = document.querySelectorAll('[data-trak]');
 	for (var i = 0; i < trakElements.length ; i++) {
