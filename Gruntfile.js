@@ -65,7 +65,15 @@ module.exports = function(grunt) {
 				files: ['<%= config.js.srcDir %>/<%= config.js.filename %>.js', 'Gruntfile.js'],
 				tasks: ['uglify', 'concat']
 			},
-		}
+		},
+
+		connect: {
+			server: {
+				options: {
+					open: true
+				}
+			}
+		},
 
 		// jasmine : {
 		// 	src : 'src/**/*.js',
@@ -82,6 +90,11 @@ module.exports = function(grunt) {
 		'jshint',
 		'uglify',
 		'concat'
+	]);
+
+	grunt.registerTask('serve', [
+		'connect',
+		'watch'
 	]);
 
 	// grunt.registerTask('travis', [
