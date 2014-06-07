@@ -1,25 +1,26 @@
-# Trak - Universal event tracking API
+[![Build Status](https://travis-ci.org/tmwagency/trak.js.svg)](https://travis-ci.org/tmwagency/trak.js)
+# trak.js - Universal analytics event tracking API
+**trak.js** is a API wrapper for your analytics APIs. By default it uses the Google Universal Analytics but you can override this witht the older ga.js or Google Tag Manager if you wish. You can even add custom event trackers as well as, or instead of GA.
 
 ## Usage:
-Include trak.js in your JavaScript bundle or add it to your HTML page like this:
+Include **trak.js** in your JavaScript bundle or add it to your HTML page like this:
 ```js
 <script type='application/javascript' src='/path/to/trak.js'></script>
 ```
-Don't forget to add a [shim](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget.addEventListener#Compatibility) for `addEventListener` if you want to support IE8 and below.
 
-There are two main ways to use **trak.js**, in you js code or as data attributes in your markup.
+There are two main ways to use **trak.js**, in you js code or as data-* attributes in your markup.
 
 ### JS implementation:
 ```js
-Trak.event('category', 'action');
-Trak.event('category', 'action', 'label');
-Trak.event('category', 'action', 'label', value); // value is an integer
-Trak.event('category', 'action', 'label', value, nonInteraction); // nonInteraction is an integer
+trak.event('category', 'action');
+trak.event('category', 'action', 'label');
+trak.event('category', 'action', 'label', value); // value is an integer
+trak.event('category', 'action', 'label', value, nonInteraction); // nonInteraction is an integer
 ```
 ##### Example:
-`Trak.event('engagement', 'signpost', 'page.href');`
+`trak.event('engagement', 'signpost', 'page.href');`
 
-### Data attr implementation:
+### Data-* attr implementation:
 ```html
 <a href="#" data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}'>link</a>
 ```
@@ -42,22 +43,58 @@ Wildcards can be used to specify certain options like the page title or url.
 ```html
 <a href="#" data-trak='{"category":"Rating","action":"link.title","label":"Up"}'>link</a>
 ```
+##### referrer: Uses `document.referrer`
+```html
+<a href="#" data-trak='{"category":"Rating","action":"document.referrer","label":"Up"}'>link</a>
+```
 
 --- 
 
-## Options
+### Options
 Various default **trak.js** options can be overridden:
 
-### Trak.options.delimeter
-**trak.js** includes a cleaning method to normalise the arguments that are passed to it. Spaces are converted to an underscore by default but can be overridden by reassigning this value.
-* **Default**: `'_'`
-* **Alternatives**: Anything you like
+#### trak.options.clean
+Type: `boolean`  
+Default: `true`
 
-### Trak.options.trackType
+Choose whether you'd like to clean the provided category, action and labels
+
+#### trak.options.delimeter
+Type: `string`  
+Default: `_`
+
+**trak.js** includes a cleaning method to normalise the arguments that are passed to it. Spaces are converted to an underscore by default but can be overridden by reassigning this value.
+
+#### trak.options.trackType
+Type: `string`  
+Default: `ga`
+Alternatives: 
+* `ga` : Google Analytics (Universal 
+* `_gaq` : Google Analytics (ga.js) Old version
+* `gtm` : Google Tag Manager
+
 Use this to change your default tracking provider.
 
-* **Default**: `'ga'`
-* **Alternatives**: `'_gaq'`
+#### trak.options.additionalTypes
+Type: `function`  
+Default: `undefined`
+
+Add any other event tracking providers. See below for example:
+
+```js
+trak.options.additionalTypes = function() {
+	UDM.evq.push(['trackEvent', trak.clean(category), trak.clean(action)]); // trak.clean(label)
+	console.log('Fire additional event');
+}
+```
+
+#### trak.options.debug
+Type: `boolean`  
+Default: `false`
+
+Show debug logs in the js console
+
+--- 
 
 ## Which tracking API's are used?
-The default implementation uses latest version of Google Analytics (`ga.js`) but **trak.js** also supports the older `_gaq` type. For more information about either, please visit https://developers.google.com/analytics/devguides/collection/analyticsjs/
+The default implementation uses latest version of Google Analytics (`ga.js`) but **trak.js** also supports the older `_gaq` type or Google Tag Manager.
