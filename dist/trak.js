@@ -110,7 +110,11 @@ trak.event = function(category, action, label, value, nonInteraction, eventName)
 
 	} else if (trak.options.trackType === 'gtm' && typeof dataLayer !== 'undefined') {
 		dataLayer.push({
-			'event': eventName
+			'event': eventName,
+			'eventCategory': trak.clean(category),
+			'eventAction': trak.clean(action),
+			'eventLabel': trak.clean(label),
+			'eventValue': value
 		});
 		if (trak.options.debug) { console.log('gtm event fired'); }
 	}

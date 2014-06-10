@@ -4,8 +4,20 @@
 
 ## Usage:
 Include **trak.js** in your JavaScript bundle or add it to your HTML page like this:
-```js
+```html
 <script type='application/javascript' src='/path/to/trak.js'></script>
+```
+then run `trak();` when the DOM is ready:
+```js
+// Native javascript
+document.addEventListener('DOMContentLoaded', function(e) {
+	trak();
+}
+
+// jQuery
+$(function(){
+	trak();
+});
 ```
 
 There are two main ways to use **trak.js**, in you js code or as data-* attributes in your markup.
@@ -25,7 +37,7 @@ trak.event('category', 'action', 'label', value, nonInteraction); // nonInteract
 <a href="#" data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}'>link</a>
 ```
 
-#### Data-attr wildcards:
+#### data-trak wildcards:
 Wildcards can be used to specify certain options like the page title or url. 
 ##### page.href: Uses `window.location.href`
 ```html
