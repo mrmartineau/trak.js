@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 			}
 		},
 
-		banner: '/*! <%= pkg.title %> v<%= pkg.version %> | (c) <%= grunt.template.today(\'yyyy\') %> @mrmartineau | <%= pkg.homepage %> */\n',
+		banner: '/* <%= pkg.name %> v<%= pkg.version %> | (c) <%= grunt.template.today(\'yyyy\') %> @mrmartineau | <%= pkg.homepage %>\n   Universal event tracking API. */\n',
 
 		jshint: {
 			all: '<%=config.js.srcDir%><%=config.js.filename%>.js',
