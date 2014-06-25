@@ -2,6 +2,14 @@
 # trak.js - Universal analytics event tracking API
 **trak.js** is a API wrapper for your analytics APIs. By default it uses the Google Universal Analytics but you can override this witht the older ga.js or Google Tag Manager if you wish. You can even add custom event trackers as well as, or instead of GA.
 
+## Getting the Library
+### Direct downloads
+- [Minified](https://raw.githubusercontent.com/tmwagency/trak.js/master/dist/trak.min.js) (~481 B gzipped)
+- [Unminified](https://raw.githubusercontent.com/tmwagency/trak.js/master/dist/trak.js) (~1.7 KB gzipped)
+
+### Bower
+`bower install trak`
+
 ## Usage:
 Include **trak.js** in your JavaScript bundle or add it to your HTML page like this:
 ```html
@@ -9,7 +17,7 @@ Include **trak.js** in your JavaScript bundle or add it to your HTML page like t
 ```
 then run `trak();` when the DOM is ready:
 ```js
-// Native javascript
+// Native JS
 document.addEventListener('DOMContentLoaded', function(e) {
 	trak();
 }
@@ -20,22 +28,52 @@ $(function(){
 });
 ```
 
-There are two main ways to use **trak.js**, in you js code or as data-* attributes in your markup.
+# API Reference
+There are two main ways to use **trak.js**, in your js code or as data-* attributes in your markup.
 
-### JS implementation:
+## JS implementation:
+### trak.event(category, action, label [, options])
+
+Fires an analytics event
+
+#### Arguments:
+*category*: A string value of the category value to set<br> 
+*action*: A string value of the action value to set<br> 
+*label*: A string value of the label value to set<br> 
+*extendedOptions*: An object containing additional parameters for more advanced analytics events. 
+
+#### The 'extendedOptions' Object:
+*value*: An integer<br>
+*nonInteraction*: An integer<br> 
+*eventName*: A string value used only with Google Tag Manager. Define your GTM event name here
+
+If any property is left `undefined`, the browser's default value will be used instead.
+
 ```js
 trak.event('category', 'action');
 trak.event('category', 'action', 'label');
-trak.event('category', 'action', 'label', value); // value is an integer
-trak.event('category', 'action', 'label', value, nonInteraction); // nonInteraction is an integer
+trak.event('category', 'action', 'label', extendedOptions);
 ```
 ##### Example:
-`trak.event('engagement', 'signpost', 'page.href');`
+```js
+trak.event('engagement', 'signpost', 'page.href');
+trak.event('engagement', 'signpost', 'page.href', {
+  value: 10,
+  nonInteraction: true,
+  eventName: 'This is a Google Tag Manager event name'
+});
+```
 
 ### Data-* attr implementation:
 ```html
 <a href="#" data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}'>link</a>
+
+<!-- With an extended option -->
+<a href="#pagehref" title="1 title" data-trak='{"category":"Test category","action":"Test action","label":"Test label","options":{"eventName":"Event name test"}}'>Data attr test #1</a>
 ```
+
+## Extended options
+These can be used 
 
 #### data-trak wildcards:
 Wildcards can be used to specify certain options like the page title or url. 
@@ -110,3 +148,11 @@ Show debug logs in the js console
 
 ## Which tracking API's are used?
 The default implementation uses latest version of Google Analytics (`ga.js`) but **trak.js** also supports the older `_gaq` type or Google Tag Manager.
+
+---
+## Browser Compatibility
+trak.js has been tested in the following browsers:
+- Chrome
+- Firefox 3+
+- Opera 10+
+- Internet Explorer 8+
