@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 				banner: '<%= banner %>',
 				mangle: true,
 				beautify: false,
-				compress: false,
+				compress: true,
 				report: 'gzip'
 			},
 			js: {
