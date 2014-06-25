@@ -1,57 +1,13 @@
 function trak() {
 	'use strict';
 
-	/**
-	 * dataAttrEvent
-	 * This is called when any element with the [data-trak] attribute is clicked.
-	 * It calls trak.event()
-	 */
-	function dataAttrEvent() {
-		var _options  = JSON.parse(this.getAttribute('data-trak'));
-		var _category = wildcard.call(this, _options.category);
-		var _action   = wildcard.call(this, _options.action);
-		var _label    = wildcard.call(this, _options.label);
-		trak.event(_category, _action, _label);
-	}
-
 	var trakElements = document.querySelectorAll('[data-trak]');
 	for (var i = 0; i < trakElements.length ; i++) {
 		if (trakElements[i].addEventListener) {
-			trakElements[i].addEventListener('click', dataAttrEvent, true);
+			trakElements[i].addEventListener('click', trak.dataAttrEvent);
 		} else if (trakElements[i].attachEvent) {
-			trakElements[i].attachEvent('onclick', dataAttrEvent);
+			trakElements[i].attachEvent('onclick', trak.dataAttrEvent);
 		}
-	}
-
-	/**
-	 * Function to convert wildcards into real values
-	 * @param  string str
-	 * @return string     The converted ouput from str
-	 */
-	function wildcard(str) {
-		var output;
-
-		switch(str) {
-			case 'page.title':
-				output = document.title;
-				break;
-			case 'page.href':
-				output = window.location.href;
-				break;
-			case 'link.href':
-				output = this.href;
-				break;
-			case 'link.title':
-				output = this.title;
-				break;
-			case 'referrer':
-				output = document.referrer ? document.referrer : 'No referrer';
-				break;
-			default:
-				output = str;
-				break;
-		}
-		return output;
 	}
 }
 
@@ -73,65 +29,117 @@ trak.clean = function(str) {
 
 /**
  * trak.event()
- * Wrapper function for various analytics APIs.
- * Enables you to add more than one, or change mid-project without changing anything else in your code
- * @param  string category        The category of the tracking event
- * @param  string action          The action of the tracking event
- * @param  string label           The label of the tracking event
- * @param  number value           Use this to assign a numerical value to a tracked page object
- * @param  boolean nonInteraction Used if trak.options.trackType = 'ga': you might want to send an event, but not impact your bounce rate.
+ * @param  string category         The category of the tracking event
+ * @param  string action           The action of the tracking event
+ * @param  string label            The label of the tracking event
+ * @param  object options          The label of the tracking event
+ * @param  number value            Use this to assign a numerical value to a tracked page object
+ * @param  boolean nonInteraction  Used if trak.options.trackType = 'ga': you might want to send an event, but not impact your bounce rate.
  */
-trak.event = function(category, action, label, value, nonInteraction, eventName) {
-	value          = value || 0;
-	nonInteraction = nonInteraction || false;
-	eventName      = eventName || false;
+trak.event = function(category, action, label, extendedOptions) {
+	extendedOptions = trak.getExtendedOptions(extendedOptions);
 
 	if (trak.options.trackType === 'ga' && typeof ga !== 'undefined') {
-		ga('send', 'event', trak.clean(category), trak.clean(action), trak.clean(label), value, {'nonInteraction': nonInteraction});
-		if (trak.options.debug) { console.log('ga event fired'); }
-		/**
-		 * Could use the below instead:
-		 *
-		ga('send', {
-			'hitType': 'event',
-			'eventCategory': trak.clean(category),
-			'eventAction': trak.clean(action),
-			'eventLabel': trak.clean(label),
-			'eventValue': value,
-			{
-				'nonInteraction': nonInteraction
-			}
-		});
-		*/
+		ga('send', 'event', trak.clean(category), trak.clean(action), trak.clean(label), extendedOptions.value, {'nonInteraction': extendedOptions.nonInteraction});
 	} else if (trak.options.trackType === '_gaq' && typeof _gaq !== 'undefined') {
-		_gaq.push(['_trackEvent', trak.clean(category), trak.clean(action), trak.clean(label), value]);
-		if (trak.options.debug) { console.log('_gaq event fired'); }
+		_gaq.push(['_trackEvent', trak.clean(category), trak.clean(action), trak.clean(label), extendedOptions.value]);
 
 	} else if (trak.options.trackType === 'gtm' && typeof dataLayer !== 'undefined') {
 		dataLayer.push({
-			'event': eventName,
+			'event': extendedOptions.eventName,
 			'eventCategory': trak.clean(category),
 			'eventAction': trak.clean(action),
 			'eventLabel': trak.clean(label),
-			'eventValue': value
+			'eventValue': extendedOptions.value
 		});
-		if (trak.options.debug) { console.log('gtm event fired'); }
 	}
 
-	/**
-	 * Add any others that you would like here:
-	 */
-	trak.options.additionalTypes();
+	if (trak.options.additionalTypes !== undefined) {
+		trak.options.additionalTypes();
+	}
 
 	if (trak.options.debug) {
-		console.log('Debug:\n Category:', trak.clean(category), '\n Action:', trak.clean(action), '\n Label:', trak.clean(label), '\n GTM Event name:', eventName);
+		console.log('Debug:\n Category:', trak.clean(category), '\n Action:', trak.clean(action), '\n Label:', trak.clean(label), '\n Extended options:', extendedOptions);
 	}
+};
+
+/**
+ * dataAttrEvent
+ * This is called when any element with the [data-trak] attribute is clicked.
+ * If [data-trakwithjs] is present on the element, the trak.attr() method is not called
+ * To allow use of the
+ */
+trak.dataAttrEvent = function() {
+	var trakWithJs = this.getAttribute('data-trakwithjs') !== undefined ? false : true;
+	if (!trakWithJs) {
+		trak.attrEvent.call(this);
+	}
+};
+
+/**
+ * attrEvent
+ * This is used when elements with the [data-trak] is present.
+ * It calls trak.event()
+ * Usage in your js code:
+ * > trak.attrEvent.call(this);
+ */
+trak.attrEvent = function() {
+	var _options   = JSON.parse(this.getAttribute('data-trak'));
+	var _category  = trak.wildcard.call(this, _options.category);
+	var _action    = trak.wildcard.call(this, _options.action);
+	var _label     = trak.wildcard.call(this, _options.label);
+	var _extendedOpts = _options.options;
+	trak.event(_category, _action, _label, _extendedOpts);
+};
+
+/**
+ * Function to convert wildcards into real values
+ * @param  string str
+ * @return string     The converted ouput from str
+ */
+trak.wildcard = function(str) {
+	var output;
+
+	switch(str) {
+		case 'page.title':
+			output = document.title;
+			break;
+		case 'page.href':
+			output = window.location.href;
+			break;
+		case 'link.href':
+			output = this.href;
+			break;
+		case 'link.title':
+			output = this.title;
+			break;
+		case 'referrer':
+			output = document.referrer ? document.referrer : 'No referrer';
+			break;
+		default:
+			output = str;
+			break;
+	}
+	return output;
+};
+
+/**
+ * getExtendedOptions
+ * Extended options are any items that are not the category, action or label
+ */
+trak.getExtendedOptions = function (extendedOptions) {
+		return {
+			value          : extendedOptions && extendedOptions.value          || 0,
+			nonInteraction : extendedOptions && extendedOptions.nonInteraction || false,
+			eventName      : extendedOptions && extendedOptions.eventName      || undefined
+		};
 };
 
 /**
  * trak.options
  * These are the default options for trak.js
- * To override them, reassign these values in your code
+ * To override them, reassign these values in your code, see
+ * https://gist.github.com/mrmartineau/24ae259f373e6dbda66f for an example
  * @type {Object}
  */
 trak.options = {
