@@ -1,0 +1,254 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Trak.js by tmwagency</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Trak.js</h1>
+        <p>Universal event tracking API</p>
+
+        <p class="view"><a href="https://github.com/tmwagency/trak.js">View the Project on GitHub <small>tmwagency/trak.js</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/tmwagency/trak.js/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/tmwagency/trak.js/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/tmwagency/trak.js">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p><a href="https://travis-ci.org/tmwagency/trak.js"><img src="https://travis-ci.org/tmwagency/trak.js.svg" alt="Build Status"></a> <a href="https://codeclimate.com/github/tmwagency/trak.js"><img src="https://codeclimate.com/github/tmwagency/trak.js.png" alt="Code Climate"></a></p>
+
+<h1>
+<a name="trakjs---universal-analytics-event-tracking-api" class="anchor" href="#trakjs---universal-analytics-event-tracking-api"><span class="octicon octicon-link"></span></a>trak.js - Universal analytics event tracking API</h1>
+
+<p><strong>trak.js</strong> is a API wrapper for your analytics APIs. By default it uses the Google Universal Analytics but you can override this witht the older ga.js or Google Tag Manager if you wish. You can even add custom event trackers as well as, or instead of GA.</p>
+
+<h2>
+<a name="getting-the-library" class="anchor" href="#getting-the-library"><span class="octicon octicon-link"></span></a>Getting the Library</h2>
+
+<h3>
+<a name="direct-downloads" class="anchor" href="#direct-downloads"><span class="octicon octicon-link"></span></a>Direct downloads</h3>
+
+<ul>
+<li>
+<a href="https://raw.githubusercontent.com/tmwagency/trak.js/master/dist/trak.min.js">Minified</a> (~481 B gzipped)</li>
+<li>
+<a href="https://raw.githubusercontent.com/tmwagency/trak.js/master/dist/trak.js">Unminified</a> (~1.7 KB gzipped)</li>
+</ul><h3>
+<a name="bower" class="anchor" href="#bower"><span class="octicon octicon-link"></span></a>Bower</h3>
+
+<p><code>bower install trak</code></p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage:</h2>
+
+<p>Include <strong>trak.js</strong> in your JavaScript bundle or add it to your HTML page like this:</p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">'application/javascript'</span> <span class="na">src=</span><span class="s">'/path/to/trak.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+<p>then run <code>trak();</code> when the DOM is ready:</p>
+
+<div class="highlight highlight-js"><pre><span class="c1">// Native JS</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'DOMContentLoaded'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">trak</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// jQuery</span>
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">trak</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+
+<h1>
+<a name="api-reference" class="anchor" href="#api-reference"><span class="octicon octicon-link"></span></a>API Reference</h1>
+
+<p>There are two main ways to use <strong>trak.js</strong>, in your js code or as data-* attributes in your markup.</p>
+
+<h2>
+<a name="js-implementation" class="anchor" href="#js-implementation"><span class="octicon octicon-link"></span></a>JS implementation:</h2>
+
+<h3>
+<a name="trakeventcategory-action-label--options" class="anchor" href="#trakeventcategory-action-label--options"><span class="octicon octicon-link"></span></a>trak.event(category, action, label [, options])</h3>
+
+<p>Fires an analytics event</p>
+
+<h4>
+<a name="arguments" class="anchor" href="#arguments"><span class="octicon octicon-link"></span></a>Arguments:</h4>
+
+<p><em>category</em>: A string value of the category value to set<br><em>action</em>: A string value of the action value to set<br><em>label</em>: A string value of the label value to set<br><em>extendedOptions</em>: An object containing additional parameters for more advanced analytics events. </p>
+
+<h4>
+<a name="the-extendedoptions-object" class="anchor" href="#the-extendedoptions-object"><span class="octicon octicon-link"></span></a>The 'extendedOptions' Object:</h4>
+
+<p><em>value</em>: An integer<br><em>nonInteraction</em>: An integer<br><em>eventName</em>: A string value used only with Google Tag Manager. Define your GTM event name here</p>
+
+<p>If any property is left <code>undefined</code>, the browser's default value will be used instead.</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">trak</span><span class="p">.</span><span class="nx">event</span><span class="p">(</span><span class="s1">'category'</span><span class="p">,</span> <span class="s1">'action'</span><span class="p">);</span>
+<span class="nx">trak</span><span class="p">.</span><span class="nx">event</span><span class="p">(</span><span class="s1">'category'</span><span class="p">,</span> <span class="s1">'action'</span><span class="p">,</span> <span class="s1">'label'</span><span class="p">);</span>
+<span class="nx">trak</span><span class="p">.</span><span class="nx">event</span><span class="p">(</span><span class="s1">'category'</span><span class="p">,</span> <span class="s1">'action'</span><span class="p">,</span> <span class="s1">'label'</span><span class="p">,</span> <span class="nx">extendedOptions</span><span class="p">);</span>
+</pre></div>
+
+<h5>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example:</h5>
+
+<div class="highlight highlight-js"><pre><span class="nx">trak</span><span class="p">.</span><span class="nx">event</span><span class="p">(</span><span class="s1">'engagement'</span><span class="p">,</span> <span class="s1">'signpost'</span><span class="p">,</span> <span class="s1">'page.href'</span><span class="p">);</span>
+<span class="nx">trak</span><span class="p">.</span><span class="nx">event</span><span class="p">(</span><span class="s1">'engagement'</span><span class="p">,</span> <span class="s1">'signpost'</span><span class="p">,</span> <span class="s1">'page.href'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">value</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="nx">nonInteraction</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nx">eventName</span><span class="o">:</span> <span class="s1">'This is a Google Tag Manager event name'</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="data--attr-implementation" class="anchor" href="#data--attr-implementation"><span class="octicon octicon-link"></span></a>Data-* attr implementation:</h3>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">data-trak=</span><span class="s">'{"category":"Rating","action":"Comparison notepad","label":"Up"}'</span><span class="nt">&gt;</span>link<span class="nt">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- With an extended option --&gt;</span>
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#pagehref"</span> <span class="na">title=</span><span class="s">"1 title"</span> <span class="na">data-trak=</span><span class="s">'{"category":"Test category","action":"Test action","label":"Test label","options":{"eventName":"Event name test"}}'</span><span class="nt">&gt;</span>Data attr test #1<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+
+<h2>
+<a name="extended-options" class="anchor" href="#extended-options"><span class="octicon octicon-link"></span></a>Extended options</h2>
+
+<p>These can be used </p>
+
+<h4>
+<a name="data-trak-wildcards" class="anchor" href="#data-trak-wildcards"><span class="octicon octicon-link"></span></a>data-trak wildcards:</h4>
+
+<p>Wildcards can be used to specify certain options like the page title or url. </p>
+
+<h5>
+<a name="pagehref-uses-windowlocationhref" class="anchor" href="#pagehref-uses-windowlocationhref"><span class="octicon octicon-link"></span></a>page.href: Uses <code>window.location.href</code>
+</h5>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">data-trak=</span><span class="s">'{"category":"Rating","action":"page.href","label":"Up"}'</span><span class="nt">&gt;</span>link<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+
+<h5>
+<a name="pagetitle-uses-documenttitle" class="anchor" href="#pagetitle-uses-documenttitle"><span class="octicon octicon-link"></span></a>page.title: Uses <code>document.title</code>
+</h5>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">data-trak=</span><span class="s">'{"category":"Rating","action":"page.title","label":"Up"}'</span><span class="nt">&gt;</span>link<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+
+<h5>
+<a name="linkhref-uses-thishref" class="anchor" href="#linkhref-uses-thishref"><span class="octicon octicon-link"></span></a>link.href: Uses <code>this.href</code>
+</h5>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">data-trak=</span><span class="s">'{"category":"Rating","action":"link.href","label":"Up"}'</span><span class="nt">&gt;</span>link<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+
+<h5>
+<a name="linktitle-uses-thistitle" class="anchor" href="#linktitle-uses-thistitle"><span class="octicon octicon-link"></span></a>link.title: Uses <code>this.title</code>
+</h5>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">data-trak=</span><span class="s">'{"category":"Rating","action":"link.title","label":"Up"}'</span><span class="nt">&gt;</span>link<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+
+<h5>
+<a name="referrer-uses-documentreferrer" class="anchor" href="#referrer-uses-documentreferrer"><span class="octicon octicon-link"></span></a>referrer: Uses <code>document.referrer</code>
+</h5>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">data-trak=</span><span class="s">'{"category":"Rating","action":"document.referrer","label":"Up"}'</span><span class="nt">&gt;</span>link<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+
+<hr><h3>
+<a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a>Options</h3>
+
+<p>Various default <strong>trak.js</strong> options can be overridden:</p>
+
+<h4>
+<a name="trakoptionsclean" class="anchor" href="#trakoptionsclean"><span class="octicon octicon-link"></span></a>trak.options.clean</h4>
+
+<p>Type: <code>boolean</code><br>
+Default: <code>true</code></p>
+
+<p>Choose whether you'd like to clean the provided category, action and labels</p>
+
+<h4>
+<a name="trakoptionsdelimeter" class="anchor" href="#trakoptionsdelimeter"><span class="octicon octicon-link"></span></a>trak.options.delimeter</h4>
+
+<p>Type: <code>string</code><br>
+Default: <code>_</code></p>
+
+<p><strong>trak.js</strong> includes a cleaning method to normalise the arguments that are passed to it. Spaces are converted to an underscore by default but can be overridden by reassigning this value.</p>
+
+<h4>
+<a name="trakoptionstracktype" class="anchor" href="#trakoptionstracktype"><span class="octicon octicon-link"></span></a>trak.options.trackType</h4>
+
+<p>Type: <code>string</code><br>
+Default: <code>ga</code>
+Alternatives: </p>
+
+<ul>
+<li>
+<code>ga</code> : Google Analytics (Universal </li>
+<li>
+<code>_gaq</code> : Google Analytics (ga.js) Old version</li>
+<li>
+<code>gtm</code> : Google Tag Manager</li>
+</ul><p>Use this to change your default tracking provider.</p>
+
+<h4>
+<a name="trakoptionsadditionaltypes" class="anchor" href="#trakoptionsadditionaltypes"><span class="octicon octicon-link"></span></a>trak.options.additionalTypes</h4>
+
+<p>Type: <code>function</code><br>
+Default: <code>undefined</code></p>
+
+<p>Add any other event tracking providers. See below for example:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">trak</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">additionalTypes</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">UDM</span><span class="p">.</span><span class="nx">evq</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="s1">'trackEvent'</span><span class="p">,</span> <span class="nx">trak</span><span class="p">.</span><span class="nx">clean</span><span class="p">(</span><span class="nx">category</span><span class="p">),</span> <span class="nx">trak</span><span class="p">.</span><span class="nx">clean</span><span class="p">(</span><span class="nx">action</span><span class="p">)]);</span> <span class="c1">// trak.clean(label)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Fire additional event'</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+<h4>
+<a name="trakoptionsdebug" class="anchor" href="#trakoptionsdebug"><span class="octicon octicon-link"></span></a>trak.options.debug</h4>
+
+<p>Type: <code>boolean</code><br>
+Default: <code>false</code></p>
+
+<p>Show debug logs in the js console</p>
+
+<hr><h2>
+<a name="which-tracking-apis-are-used" class="anchor" href="#which-tracking-apis-are-used"><span class="octicon octicon-link"></span></a>Which tracking API's are used?</h2>
+
+<p>The default implementation uses latest version of Google Analytics (<code>ga.js</code>) but <strong>trak.js</strong> also supports the older <code>_gaq</code> type or Google Tag Manager.</p>
+
+<hr><h2>
+<a name="browser-compatibility" class="anchor" href="#browser-compatibility"><span class="octicon octicon-link"></span></a>Browser Compatibility</h2>
+
+<p>trak.js has been tested in the following browsers:</p>
+
+<ul>
+<li>Chrome</li>
+<li>Firefox 3+</li>
+<li>Opera 10+</li>
+<li>Internet Explorer 8+</li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/tmwagency">tmwagency</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
