@@ -6,8 +6,13 @@
     "type": "git",
     "url": "https://github.com/tmwagency/trak.js.git"
   },
+  "main": "dist/trak.js",
   "keywords": [
-    "analytics"
+    "analytics",
+    "tracking",
+    "event tracking",
+    "track",
+    "google analytics"
   ],
   "author": "Zander Martineau",
   "license": "MIT",
