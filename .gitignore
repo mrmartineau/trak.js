@@ -16,3 +16,5 @@ Thumbs.db
 *.sublime-*
 
 node_modules/
+
+.log
