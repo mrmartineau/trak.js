@@ -19,6 +19,9 @@ function trak() {
  * @return string cleaned string
  */
 trak.clean = function(str) {
+	if (!str) {
+		return '';
+	}
 	if (!trak.options.clean) {
 		return str;
 	} else {
@@ -43,7 +46,6 @@ trak.event = function(category, action, label, extendedOptions) {
 		ga('send', 'event', trak.clean(category), trak.clean(action), trak.clean(label), extendedOptions.value, {'nonInteraction': extendedOptions.nonInteraction});
 	} else if (trak.options.trackType === '_gaq' && typeof _gaq !== 'undefined') {
 		_gaq.push(['_trackEvent', trak.clean(category), trak.clean(action), trak.clean(label), extendedOptions.value]);
-
 	} else if (trak.options.trackType === 'gtm' && typeof dataLayer !== 'undefined') {
 		dataLayer.push({
 			'event'         : extendedOptions.eventName,
