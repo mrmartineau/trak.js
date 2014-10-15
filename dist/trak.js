@@ -48,11 +48,11 @@ trak.event = function(category, action, label, extendedOptions) {
 
 	} else if (trak.options.trackType === 'gtm' && typeof dataLayer !== 'undefined') {
 		dataLayer.push({
-			'event': extendedOptions.eventName,
-			'eventCategory': trak.clean(category),
-			'eventAction': trak.clean(action),
-			'eventLabel': trak.clean(label),
-			'eventValue': extendedOptions.value
+			'event'         : extendedOptions.eventName,
+			'eventCategory' : trak.clean(category),
+			'eventAction'   : trak.clean(action),
+			'eventLabel'    : trak.clean(label),
+			'eventValue'    : extendedOptions.value
 		});
 	}
 
@@ -86,10 +86,10 @@ trak.dataAttrEvent = function() {
  * > trak.attrEvent.call(this);
  */
 trak.attrEvent = function() {
-	var _options   = JSON.parse(this.getAttribute('data-trak'));
-	var _category  = trak.wildcard.call(this, _options.category);
-	var _action    = trak.wildcard.call(this, _options.action);
-	var _label     = trak.wildcard.call(this, _options.label);
+	var _options      = JSON.parse(this.getAttribute('data-trak'));
+	var _category     = trak.wildcard.call(this, _options.category);
+	var _action       = trak.wildcard.call(this, _options.action);
+	var _label        = trak.wildcard.call(this, _options.label);
 	var _extendedOpts = _options.options;
 	trak.event(_category, _action, _label, _extendedOpts);
 };
@@ -151,3 +151,16 @@ trak.options = {
 	additionalTypes : undefined,
 	debug           : true
 };
+
+// Check for AMD/Module support, otherwise define trak as a global variable.
+if (typeof define !== 'undefined' && define.amd) {
+	// AMD. Register as an anonymous module.
+	define (function() {
+		'use strict';
+		return trak;
+	});
+} else if (typeof module !== 'undefined' && module.exports) {
+	module.exports = trak;
+} else {
+	window.trak = trak;
+}
