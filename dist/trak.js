@@ -1,4 +1,4 @@
-/* trak.js v0.2.2 | (c) 2014 @mrmartineau | https://github.com/tmwagency/trak.js
+/* trak.js v0.2.3 | (c) 2014 @mrmartineau | https://github.com/tmwagency/trak.js
    Universal event tracking API. */
 function trak() {
 	'use strict';
@@ -21,6 +21,9 @@ function trak() {
  * @return string cleaned string
  */
 trak.clean = function(str) {
+	if (!str) {
+		return '';
+	}
 	if (!trak.options.clean) {
 		return str;
 	} else {
@@ -45,7 +48,6 @@ trak.event = function(category, action, label, extendedOptions) {
 		ga('send', 'event', trak.clean(category), trak.clean(action), trak.clean(label), extendedOptions.value, {'nonInteraction': extendedOptions.nonInteraction});
 	} else if (trak.options.trackType === '_gaq' && typeof _gaq !== 'undefined') {
 		_gaq.push(['_trackEvent', trak.clean(category), trak.clean(action), trak.clean(label), extendedOptions.value]);
-
 	} else if (trak.options.trackType === 'gtm' && typeof dataLayer !== 'undefined') {
 		dataLayer.push({
 			'event'         : extendedOptions.eventName,
