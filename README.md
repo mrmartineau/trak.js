@@ -10,6 +10,9 @@
 ### Bower
 `bower install trak`
 
+### NPM
+`npm install trak.js --save`
+
 ## Usage:
 Include **trak.js** in your JavaScript bundle or add it to your HTML page like this:
 ```html
