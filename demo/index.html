@@ -1,10 +1,10 @@
 <html>
 	<head>
 		<title>trak.js demo</title>
-		<link rel="stylesheet" href="http://tmwagency.github.io/kickoff/css/kickoff.css">
+		<!-- <link rel="stylesheet" href="http://tmwagency.github.io/kickoff/css/kickoff.css"> -->
 	</head>
 	<body>
-	<div class="g-container">
+	<div class="l-container">
 		<h1>trak.js demo area</h1>
 		<p>To test this, please install the <a href="https://chrome.google.com/webstore/detail/google-analytics-debugger/jnkmfdileelhofjcijamephohjechhna">Google Analytics debugger</a> on the Chrome Web Store</p>
 		<h4>Data attributes:</h4>
@@ -99,7 +99,7 @@
 
 		<script>
 			document.addEventListener('DOMContentLoaded', function(e) {
-				trak();
+				trak.start(); // How to do without changing the API call
 
 				var test1 = document.querySelector('#js-test1');
 				var test2 = document.querySelector('#js-test2');
@@ -127,6 +127,8 @@
 				 * Change some of the default options
 				 */
 				// trak.options.clean = false;
+				trak.options.debug = true;
+				// console.log(trak.options);
 				// trak.options.trackType = 'gtm';
 				// Add more tracking codes
 				// trak.options.additionalTypes = function() {
