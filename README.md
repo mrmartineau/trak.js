@@ -75,6 +75,20 @@ trak.event({
 <a href="#pagehref" title="1 title" data-trak='{"category":"Test category","action":"Test action","label":"Test label","eventName":"Event name test"}'>Data attr test #1</a>
 ```
 
+#### Using data-* attr options with but fire event with js
+You can also use data-* attr options but fire events in js. To do this, add the relevant `data-trak` data and also a `data-trakwithjs` boolean attribute. This means that the event will only fire when you run it in your js. To run in your js, use the `trak.attrEvent` method like we have below:
+
+```html
+<a href="#pagehref" data-trakwithjs data-trak='{"category":"Tracked with JS not attr call","action":"link.href","label":"this is a label"}'>JS Test #5</a>
+
+<script>
+  test5.addEventListener('click', function() {
+    trak.attrEvent.call(this);
+  }, true);
+</script>
+```
+See this in use in the [trak demo](http://tech.tmw.co.uk/code/trak/demo.html).
+
 ## Extended options
 These can be used 
 
