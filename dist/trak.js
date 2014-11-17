@@ -1,4 +1,4 @@
-/* trak.js v0.2.3 | (c) 2014 @mrmartineau | https://github.com/tmwagency/trak.js
+/* trak.js v0.3.0 | (c) 2014 @mrmartineau | https://github.com/tmwagency/trak.js
    Universal event tracking API. */
 var trak = (function() {
 	'use strict';
@@ -15,44 +15,50 @@ var trak = (function() {
 			return '';
 		}
 		if (!trak.options.clean) {
-			return str;
+			return wildcard.call(this, str);
 		} else {
-			return str.toString().replace(/\s|'|"/g, options.delimeter).toLowerCase();
+			return wildcard.call(this, str).toString().replace(/\s|'|"/g, settings.delimeter).toLowerCase();
 		}
 	};
 
+
 	/**
 	 * trak.event()
-	 * @param  string category         The category of the tracking event
-	 * @param  string action           The action of the tracking event
-	 * @param  string label            The label of the tracking event
-	 * @param  object options          The label of the tracking event
-	 * @param  number value            Use this to assign a numerical value to a tracked page object
-	 * @param  boolean nonInteraction  Used if trak.options.trackType = 'ga': you might want to send an event, but not impact your bounce rate.
+	 * @param  object options     See getOptions() function for available items
 	 */
-	var event = function(category, action, label, extendedOptions) {
-		extendedOptions = getExtendedOptions(extendedOptions);
+	var event = function(options) {
+		var opts           = getOptions(options);
 
-		if (options.trackType === 'ga' && typeof ga !== 'undefined') {
-			ga('send', 'event', clean(category), clean(action), clean(label), extendedOptions.value, {'nonInteraction': extendedOptions.nonInteraction});
-		} else if (options.trackType === '_gaq' && typeof _gaq !== 'undefined') {
-			_gaq.push(['_trackEvent', clean(category), clean(action), clean(label), extendedOptions.value]);
-		} else if (options.trackType === 'gtm' && typeof dataLayer !== 'undefined') {
+		// Cache the options
+		var category       = clean.call(this, opts.category);
+		var action         = clean.call(this, opts.action);
+		var label          = clean.call(this, opts.label);
+		var eventName      = opts.eventName;
+		var value          = opts.value;
+		var nonInteraction = opts.nonInteraction;
+
+		if (settings.trackType === 'ga' && typeof ga !== 'undefined') {
+			ga('send', 'event', category, action, label, value, {'nonInteraction': nonInteraction});
+
+		} else if (settings.trackType === '_gaq' && typeof _gaq !== 'undefined') {
+			_gaq.push(['_trackEvent', category, action, label, value]);
+
+		} else if (settings.trackType === 'gtm' && typeof dataLayer !== 'undefined') {
 			dataLayer.push({
-				'event'         : extendedOptions.eventName,
-				'eventCategory' : clean(category),
-				'eventAction'   : clean(action),
-				'eventLabel'    : clean(label),
-				'eventValue'    : extendedOptions.value
+				'event'         : eventName,
+				'eventCategory' : category,
+				'eventAction'   : action,
+				'eventLabel'    : label,
+				'eventValue'    : value
 			});
 		}
 
-		if (options.additionalTypes !== undefined) {
-			options.additionalTypes();
+		if (settings.additionalTypes !== undefined) {
+			settings.additionalTypes();
 		}
 
-		if (options.debug) {
-			console.log('Debug:\n Category:', clean(category), '\n Action:', clean(action), '\n Label:', clean(label), '\n Extended options:', extendedOptions);
+		if (settings.debug) {
+			console.debug('Debug message:\n Category:', category, '\n Action:', action, '\n Label:', label);
 		}
 	};
 
@@ -79,12 +85,8 @@ var trak = (function() {
 	 * > trak.attrEvent.call(this);
 	 */
 	var attrEvent = function() {
-		var _options      = JSON.parse(this.getAttribute('data-trak'));
-		var _category     = wildcard.call(this, _options.category);
-		var _action       = wildcard.call(this, _options.action);
-		var _label        = wildcard.call(this, _options.label);
-		var _extendedOpts = _options.options;
-		event(_category, _action, _label, _extendedOpts);
+		var _options = JSON.parse(this.getAttribute('data-trak'));
+		event.call(this, _options);
 	};
 
 
@@ -121,14 +123,17 @@ var trak = (function() {
 
 
 	/**
-	 * getExtendedOptions
-	 * Extended options are any items that are not the category, action or label
+	 * getOptions
+	 * Get all the options
 	 */
-	var getExtendedOptions = function (extendedOptions) {
+	var getOptions = function (opts) {
 			return {
-				value          : extendedOptions && extendedOptions.value          || 0,
-				nonInteraction : extendedOptions && extendedOptions.nonInteraction || false,
-				eventName      : extendedOptions && extendedOptions.eventName      || undefined
+				category       : opts && opts.category       || '',
+				action         : opts && opts.action         || '',
+				label          : opts && opts.label          || '',
+				value          : opts && opts.value          || 0,
+				nonInteraction : opts && opts.nonInteraction || false,
+				eventName      : opts && opts.eventName      || undefined
 			};
 	};
 
@@ -140,7 +145,7 @@ var trak = (function() {
 	 * https://gist.github.com/mrmartineau/24ae259f373e6dbda66f for an example
 	 * @type {Object}
 	 */
-	var options = {
+	var settings = {
 		clean           : true, // trak.options.clean     = false
 		delimeter       : '_',  // trak.options.delimeter = '-'
 		trackType       : 'ga', // trak.options.trackType = 'ga' Available options: ga, _gaq & gtm
@@ -150,7 +155,6 @@ var trak = (function() {
 
 
 	var start = function() {
-		console.log("trak started");
 		var trakElements = document.querySelectorAll('[data-trak]');
 		for (var i = 0; i < trakElements.length ; i++) {
 			if (trakElements[i].addEventListener) {
@@ -159,7 +163,6 @@ var trak = (function() {
 				trakElements[i].attachEvent('onclick', dataAttrEvent);
 			}
 		}
-
 	};
 
 	return {
@@ -168,7 +171,7 @@ var trak = (function() {
 		event     : event,
 		attrEvent : attrEvent,
 		wildcard  : wildcard,
-		options   : options
+		options   : settings
 	};
 
 })();
