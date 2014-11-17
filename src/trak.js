@@ -19,6 +19,7 @@ var trak = (function() {
 		}
 	};
 
+
 	/**
 	 * trak.event()
 	 * @param  string category         The category of the tracking event
@@ -148,7 +149,6 @@ var trak = (function() {
 
 
 	var start = function() {
-		console.log("trak started");
 		var trakElements = document.querySelectorAll('[data-trak]');
 		for (var i = 0; i < trakElements.length ; i++) {
 			if (trakElements[i].addEventListener) {
@@ -157,7 +157,6 @@ var trak = (function() {
 				trakElements[i].attachEvent('onclick', dataAttrEvent);
 			}
 		}
-
 	};
 
 	return {
