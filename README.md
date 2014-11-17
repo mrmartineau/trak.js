@@ -18,16 +18,16 @@ Include **trak.js** in your JavaScript bundle or add it to your HTML page like t
 ```html
 <script type='application/javascript' src='/path/to/trak.js'></script>
 ```
-then run `trak();` when the DOM is ready:
+then run `trak.start();` when the DOM is ready (after version 0.3.0 this has changed, run `trak();` before version 0.3.0):
 ```js
 // Native JS
 document.addEventListener('DOMContentLoaded', function(e) {
-	trak();
+	trak.start();
 }
 
 // jQuery
 $(function(){
-	trak();
+	trak.start();
 });
 ```
 
@@ -35,17 +35,14 @@ $(function(){
 There are two main ways to use **trak.js**, in your js code or as data-* attributes in your markup.
 
 ## JS implementation:
-### trak.event(category, action, label [, options])
+### trak.event({category: '', action: '', label: '' , value: '', nonInteraction: '', eventName: ''})
 
 Fires an analytics event
 
-#### Arguments:
+#### Arguments object: (these are all optional)
 *category*: A string value of the category value to set<br> 
 *action*: A string value of the action value to set<br> 
-*label*: A string value of the label value to set<br> 
-*extendedOptions*: An object containing additional parameters for more advanced analytics events. 
-
-#### The 'extendedOptions' Object:
+*label*: A string value of the label value to set<br>
 *value*: An integer<br>
 *nonInteraction*: An integer<br> 
 *eventName*: A string value used only with Google Tag Manager. Define your GTM event name here
@@ -53,14 +50,17 @@ Fires an analytics event
 If any property is left `undefined`, the browser's default value will be used instead.
 
 ```js
-trak.event('category', 'action');
-trak.event('category', 'action', 'label');
-trak.event('category', 'action', 'label', extendedOptions);
+trak.event({category: 'category value', action: 'action value'});
+trak.event({category: 'category value', action: 'action value', label: 'label value'});
+trak.event({category: 'category value', action: 'action value', label: 'label value' , value: '', nonInteraction: '', eventName: ''});
 ```
 ##### Example:
 ```js
-trak.event('engagement', 'signpost', 'page.href');
-trak.event('engagement', 'signpost', 'page.href', {
+trak.event({category: 'engagement', action: 'signpost', label: 'page.href'});
+trak.event({
+  category: 'engagement',
+  action: 'signpost',
+  label: 'page.href',
   value: 10,
   nonInteraction: true,
   eventName: 'This is a Google Tag Manager event name'
@@ -72,14 +72,15 @@ trak.event('engagement', 'signpost', 'page.href', {
 <a href="#" data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}'>link</a>
 
 <!-- With an extended option -->
-<a href="#pagehref" title="1 title" data-trak='{"category":"Test category","action":"Test action","label":"Test label","options":{"eventName":"Event name test"}}'>Data attr test #1</a>
+<a href="#pagehref" title="1 title" data-trak='{"category":"Test category","action":"Test action","label":"Test label","eventName":"Event name test"}'>Data attr test #1</a>
 ```
 
 ## Extended options
 These can be used 
 
-#### data-trak wildcards:
-Wildcards can be used to specify certain options like the page title or url. 
+### data-trak wildcards:
+Wildcards can be used to specify certain options like the page title or url.
+
 ##### page.href: Uses `window.location.href`
 ```html
 <a href="#" data-trak='{"category":"Rating","action":"page.href","label":"Up"}'>link</a>
@@ -107,20 +108,23 @@ Wildcards can be used to specify certain options like the page title or url.
 Various default **trak.js** options can be overridden:
 
 #### trak.options.clean
+Choose whether you'd like to clean the provided category, action and labels
+
 Type: `boolean`  
 Default: `true`
 
-Choose whether you'd like to clean the provided category, action and labels
 
 #### trak.options.delimeter
+**trak.js** includes a cleaning method to normalise the arguments that are passed to it. Spaces are converted to an underscore by default but can be overridden by reassigning this value.
+
 Type: `string`  
 Default: `_`
 
-**trak.js** includes a cleaning method to normalise the arguments that are passed to it. Spaces are converted to an underscore by default but can be overridden by reassigning this value.
 
 #### trak.options.trackType
 Type: `string`  
 Default: `ga`
+
 Alternatives: 
 * `ga` : Google Analytics (Universal 
 * `_gaq` : Google Analytics (ga.js) Old version
@@ -145,7 +149,7 @@ trak.options.additionalTypes = function() {
 Type: `boolean`  
 Default: `false`
 
-Show debug logs in the js console
+Show debug logs in the javascript console
 
 --- 
 
