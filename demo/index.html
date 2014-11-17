@@ -13,7 +13,7 @@
 		<ul>
 			<li>
 				Category: test_action, Action: test_action, Label: test_label <br>
-				<a href="#pagehref" title="1 title" data-trak='{"category":"Test category","action":"Test action","label":"Test label","options":{"eventName":"Event name test"}}'>Data attr test #1</a>
+				<a href="#pagehref" title="1 title" data-trak='{"category":"Test category","action":"Test action","label":"Test label","eventName":"Event name test"}'>Data attr test #1</a>
 			</li>
 		</ul>
 
@@ -27,12 +27,12 @@
 			<li>
 				<h6>link.title &amp; link.href</h6>
 				Category: Link title, Action: #linkhref, Label: this is a label <br>
-				<a href="#linkhref" title="Link title" data-trak='{"category":"link.title","action":"link.href","label":"this is a label"}'>Data attr test #3</a>
+				<a href="#linkhref" title="This is an example link title" data-trak='{"category":"link.title","action":"link.href","label":"this is a label"}'>Data attr test #3</a>
 			</li>
 			<li>
 				<h6>referrer</h6>
 				Category: document.referrer, Action: #linkhref, Label: this is a label <br>
-				<a href="#linkhref" title="Link title" data-trak='{"category":"referrer","action":"link.href","label":"this is a label"}'>Data attr test #4</a>
+				<a href="#linkhref" title="This is another example link title" data-trak='{"category":"referrer","action":"link.href","label":"this is a label"}'>Data attr test #4</a>
 			</li>
 		</ul>
 
@@ -49,15 +49,15 @@
 			</li>
 			<li>
 				Category: link.href, Action: link.title, Label: test_label_(using_js) <br>
-				<a href="#pagehref" id="js-test3" title="1 title">JS Test #3</a>
+				<a href="#pagehref" id="js-test3" title="This is an example link title">JS Test #3</a>
 			</li>
 			<li>
 				Category: document.referrer, Action: link.title, Label: test_label_(using_js) <br>
-				<a href="#pagehref" id="js-test4" title="1 title">JS Test #4</a>
+				<a href="#pagehref" id="js-test4" title="This is another example link title">JS Test #4</a>
 			</li>
 			<li>
-				Category: Tracked with JS not attr call, Action: link.title, Label: test_label_(using_js) <br>
-				<a href="#pagehref" id="js-test5" title="1 title" data-trakwithjs data-trak='{"category":"Tracked with JS not attr call","action":"link.href","label":"this is a label"}'>JS Test #5</a>
+				Category: Tracked with JS not attr call, Action: link.href, Label: test_label_(using_js) <br>
+				<a href="#pagehref" id="js-test5" title="This is one more example link title" data-trakwithjs data-trak='{"category":"Tracked with JS not attr call","action":"link.href","label":"this is a label"}'>JS Test #5</a>
 			</li>
 		</ul>
 
@@ -108,16 +108,33 @@
 				var test5 = document.querySelector('#js-test5');
 
 				test1.addEventListener('click', function() {
-					trak.event('Test action (using js)', 'Test category (using js)', 'Test label (using js)');
+					trak.event({
+						category : 'Test action (using js)',
+						action   : 'Test category (using js)',
+						label    : 'Test label (using js)'
+					});
 				}, true);
 				test2.addEventListener('click', function() {
-					trak.event(window.location.href, document.title, 'Test label (using js)');
+					trak.event({
+						category : window.location.href,
+						action   : document.title,
+						label    : 'Test label (using js)'
+					});
 				}, true);
 				test3.addEventListener('click', function() {
-					trak.event(this.href, this.title, 'Test label (using js)');
+					trak.event({
+						category : this.href,
+						action   : this.title,
+						label    : 'Test label (using js)'
+					});
 				}, true);
 				test4.addEventListener('click', function() {
-					trak.event(document.referrer, this.title, 'Test label (using js)', {eventName: 'Test eventName'});
+					trak.event({
+						category : document.referrer,
+						action   : this.title,
+						label    : 'Test label (using js)',
+						eventName: 'Test eventName'
+					});
 				}, true);
 				test5.addEventListener('click', function() {
 					trak.attrEvent.call(this);
@@ -128,7 +145,7 @@
 				 */
 				// trak.options.clean = false;
 				trak.options.debug = true;
-				// console.log(trak.options);
+				// console.log('trak options:', trak.options);
 				// trak.options.trackType = 'gtm';
 				// Add more tracking codes
 				// trak.options.additionalTypes = function() {
