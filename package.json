@@ -1,6 +1,6 @@
 {
   "name": "trak.js",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Universal event tracking API",
   "repository": {
     "type": "git",
