@@ -15,10 +15,13 @@
 
 ## Usage:
 Include **trak.js** in your JavaScript bundle or add it to your HTML page like this:
+
 ```html
 <script type='application/javascript' src='/path/to/trak.js'></script>
 ```
+
 then run `trak.start();` when the DOM is ready (after version 0.3.0 this has changed, run `trak();` before version 0.3.0):
+
 ```js
 // Native JS
 document.addEventListener('DOMContentLoaded', function(e) {
@@ -54,9 +57,16 @@ trak.event({category: 'category value', action: 'action value'});
 trak.event({category: 'category value', action: 'action value', label: 'label value'});
 trak.event({category: 'category value', action: 'action value', label: 'label value' , value: '', nonInteraction: '', eventName: ''});
 ```
+
 ##### Example:
+
 ```js
-trak.event({category: 'engagement', action: 'signpost', label: 'page.href'});
+trak.event({
+  category: 'engagement',
+  action: 'signpost',
+  label: 'page.href'
+});
+
 trak.event({
   category: 'engagement',
   action: 'signpost',
@@ -68,6 +78,7 @@ trak.event({
 ```
 
 ### Data-* attr implementation:
+
 ```html
 <a href="#" data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}'>link</a>
 
@@ -87,6 +98,7 @@ You can also use data-* attr options but fire events in js. To do this, add the 
   }, true);
 </script>
 ```
+
 See this in use in the [trak demo](http://tech.tmw.co.uk/code/trak/demo.html).
 
 ## Extended options
@@ -96,6 +108,7 @@ These can be used
 Wildcards can be used to specify certain options like the page title or url.
 
 ##### page.href: Uses `window.location.href`
+
 ```html
 <a href="#" data-trak='{"category":"Rating","action":"page.href","label":"Up"}'>link</a>
 ``` 
@@ -124,22 +137,23 @@ Various default **trak.js** options can be overridden:
 #### trak.options.clean
 Choose whether you'd like to clean the provided category, action and labels
 
-Type: `boolean`  
+Type: `boolean`<br>
 Default: `true`
 
 
 #### trak.options.delimeter
 **trak.js** includes a cleaning method to normalise the arguments that are passed to it. Spaces are converted to an underscore by default but can be overridden by reassigning this value.
 
-Type: `string`  
+Type: `string`<br>
 Default: `_`
 
 
 #### trak.options.trackType
-Type: `string`  
+Type: `string`<br>
 Default: `ga`
 
 Alternatives: 
+
 * `ga` : Google Analytics (Universal 
 * `_gaq` : Google Analytics (ga.js) Old version
 * `gtm` : Google Tag Manager
