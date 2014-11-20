@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/tmwagency/trak.js.svg)](https://travis-ci.org/tmwagency/trak.js) [![Code Climate](https://codeclimate.com/github/tmwagency/trak.js.png)](https://codeclimate.com/github/tmwagency/trak.js)
 # trak.js - Universal analytics event tracking API
-**trak.js** is a API wrapper for your analytics APIs. By default it uses the Google Universal Analytics but you can override this witht the older ga.js or Google Tag Manager if you wish. You can even add custom event trackers as well as, or instead of GA.
+Put simply, **trak.js** is a wrapper for any analytics API. By default it uses Google Universal Analytics but you can override this with the older ga.js or Google Tag Manager if you wish, or you can even add custom event trackers as well, instead of Google Analytics.
 
 ## Getting the Library
 ### Direct downloads
