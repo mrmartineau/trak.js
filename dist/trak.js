@@ -1,4 +1,4 @@
-/* trak.js v0.3.0 | (c) 2014 @mrmartineau | https://github.com/tmwagency/trak.js
+/* trak.js v0.4.0 | (c) 2014 @mrmartineau | https://github.com/tmwagency/trak.js
    Universal event tracking API. */
 var trak = (function() {
 	'use strict';
@@ -64,20 +64,6 @@ var trak = (function() {
 
 
 	/**
-	 * dataAttrEvent
-	 * This is called when any element with the [data-trak] attribute is clicked.
-	 * If [data-trakwithjs] is present on the element, the trak.attr() method is not called
-	 * To allow use of the
-	 */
-	var dataAttrEvent = function() {
-		var trakWithJs = this.getAttribute('data-trakwithjs') !== null ? true : false;
-		if (!trakWithJs) {
-			attrEvent.call(this);
-		}
-	};
-
-
-	/**
 	 * attrEvent
 	 * This is used when elements with the [data-trak] is present.
 	 * It calls trak.event()
@@ -85,8 +71,11 @@ var trak = (function() {
 	 * > trak.attrEvent.call(this);
 	 */
 	var attrEvent = function() {
-		var _options = JSON.parse(this.getAttribute('data-trak'));
-		event.call(this, _options);
+		var trakWithJs = this.getAttribute('data-trakwithjs') !== null ? true : false;
+		if (!trakWithJs) {
+			var _options = JSON.parse(this.getAttribute('data-trak'));
+			event.call(this, _options);
+		}
 	};
 
 
@@ -156,11 +145,17 @@ var trak = (function() {
 
 	var start = function() {
 		var trakElements = document.querySelectorAll('[data-trak]');
+
 		for (var i = 0; i < trakElements.length ; i++) {
+			var _options = JSON.parse(trakElements[i].getAttribute('data-trak'));
+
+			// This allows us to choose other event types but sets click as the default
+			var trigger = _options.trigger || 'click';
+
 			if (trakElements[i].addEventListener) {
-				trakElements[i].addEventListener('click', dataAttrEvent);
+				trakElements[i].addEventListener(trigger, attrEvent);
 			} else if (trakElements[i].attachEvent) {
-				trakElements[i].attachEvent('onclick', dataAttrEvent);
+				trakElements[i].attachEvent('on' + trigger, attrEvent);
 			}
 		}
 	};
