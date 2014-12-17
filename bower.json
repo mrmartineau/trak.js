@@ -1,18 +1,19 @@
 {
   "name": "trak.js",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "homepage": "https://github.com/tmwagency/trak.js",
   "authors": [
     "Zander Martineau @MrMartineau"
   ],
-  "description": "Universal event tracking API",
+  "description": "Universal event tracking API wrapper",
   "main": "dist/trak.js",
   "keywords": [
     "analytics",
     "google",
     "tracking",
     "event",
-    "tracking"
+    "tracking",
+    "emit"
   ],
   "license": "MIT",
   "ignore": [
