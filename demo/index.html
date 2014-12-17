@@ -22,7 +22,7 @@
 		<p>
 			<input type="text" data-trak='{"category":"page.title","action":"page.href","label":"this is a label","trigger":"focus"}' class="form-input" placeholder="Event triggers on focus">
 			<b>Trigger event used:</b> <code>focus</code><br>
-			<b>Result:</b> Category: test_action, Action: test_action, Label: test_label <br>
+			<b>Result:</b> Category: page.title (wildcard), Action: page.href (wildcard), Label: test_label <br>
 		</p>
 
 		<p>
@@ -36,24 +36,24 @@
 		<p>
 			<a href="#pagehref" title="1 title" data-trak='{"category":"page.title","action":"page.href","label":"this is a label","event":"click"}'>Data attr test #2</a><br>
 			<b>Trigger event used:</b> <code>click</code><br>
-			<b>Result:</b> Category: Page title, Action: window.location.href, Label: this is a label <br>
+			<b>Result:</b> Category: page.title (wildcard), Action: page.href (wildcard), Label: this is a label <br>
 		</p>
 
 		<h3>link.title &amp; link.href</h3>
 		<p>
 			<a href="#linkhref" title="This is an example link title" data-trak='{"category":"link.title","action":"link.href","label":"this is a label"}'>Data attr test #3</a><br>
 			<b>Trigger event used:</b> <code>click</code><br>
-			<b>Result:</b> Category: Link title, Action: #linkhref, Label: this is a label <br>
+			<b>Result:</b> Category: link.title (wildcard), Action: link.href (wildcard), Label: this is a label <br>
 		</p>
 
 		<h3>referrer</h3>
 		<p>
 			<a href="#linkhref" title="This is another example link title" data-trak='{"category":"referrer","action":"link.href","label":"this is a label"}'>Data attr test #4</a><br>
 			<b>Trigger event used:</b> <code>click</code><br>
-			<b>Result:</b> Category: document.referrer, Action: #linkhref, Label: this is a label <br>
+			<b>Result:</b> Category: document.referrer (wildcard), Action: link.href, Label: this is a label <br>
 		</p>
 
-		<h2>JS implementation:</h2>
+		<h2>JS implementation</h2>
 		<p>
 			<a href="#pagehref" id="js-test1" title="1 title">JS Test #1</a><br>
 			<b>Trigger event used:</b> <code>click</code><br>
@@ -63,25 +63,25 @@
 		<p>
 			<a href="#pagehref" id="js-test2" title="1 title">JS Test #2</a><br>
 			<b>Trigger event used:</b> <code>mouseover</code><br>
-			<b>Result:</b> Category: page.href, Action: page.title, Label: test_label_(using_js)<br>
+			<b>Result:</b> Category: page.href (wildcard), Action: page.title (wildcard), Label: test_label_(using_js)<br>
 		</p>
 
 		<p>
 			<a href="#pagehref" id="js-test3" title="This is an example link title">JS Test #3</a><br>
 			<b>Trigger event used:</b> <code>click</code><br>
-			<b>Result:</b> Category: link.href, Action: link.title, Label: test_label_(using_js)<br>
+			<b>Result:</b> Category: link.href (wildcard), Action: link.title (wildcard), Label: test_label_(using_js)<br>
 		</p>
 
 		<p>
 			<a href="#pagehref" id="js-test4" title="This is another example link title">JS Test #4</a><br>
 			<b>Trigger event used:</b> <code>click</code><br>
-			<b>Result:</b> Category: document.referrer, Action: link.title, Label: test_label_(using_js)<br>
+			<b>Result:</b> Category: document.referrer (wildcard), Action: link.title (wildcard), Label: test_label_(using_js)<br>
 		</p>
 
 		<p>
 			<a href="#pagehref" id="js-test5" title="This is one more example link title" data-trakwithjs data-trak='{"category":"Tracked with JS not attr call","action":"link.href","label":"this is a label"}'>JS Test #5</a><br>
 			<b>Trigger event used:</b> <code>click</code><br>
-			<b>Result:</b> Category: Tracked with JS not attr call, Action: link.href, Label: test_label_(using_js)<br>
+			<b>Result:</b> Category: Tracked with JS not attr call, Action: link.href (wildcard), Label: test_label_(using_js)<br>
 		</p>
 
 	</div>
