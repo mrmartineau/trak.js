@@ -46,7 +46,6 @@ Fires an analytics event
 *value*: An integer<br>
 *nonInteraction*: An integer<br>
 *eventName*: A string value used only with Google Tag Manager. Define your GTM event name here<br>
-*trigger*: A string value for the trigger event to be used. e.g. `click`, `mouseover`, `touchstart`
 
 If any property is left `undefined`, the browser's default value will be used instead.
 
@@ -72,18 +71,23 @@ el.addEventListener('mouseover', function() {
 }
 ```
 
-### Data-* attr implementation:
+### Data-* attr implementation
 ```html
 <a href="#" data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}'>link</a>
 
 <!-- With an extended option -->
 <a href="#pagehref" title="1 title" data-trak='{"category":"Test category","action":"Test action","label":"Test label","eventName":"Event name test"}'>Data attr test #1</a>
-
-<!-- With a custom trigger event -->
-<a href="#pagehref" title="1 title" data-trak='{"category":"Test category","action":"Test action","label":"Test label","eventName":"Event name test","trigger":"focus"}'>Data attr test #1</a>
 ```
 
-### Wildcards:
+### Custom trigger type (new as of v0.4.0)
+Data-* attrs can also define a custom trigger type, instead of `click`; `mouseover`, `touchstart`, `focus`, `blur` or any other valid event can be used to trigger a trak event.
+
+```html
+<!-- Triggered on focus -->
+<a href="#pagehref" title="1 title" data-trak='{"category":"Test category","action":"Test action","label":"Test label","trigger":"focus"}'>Custom trigger type</a>
+```
+
+### Wildcards
 Wildcards can be used to specify certain options like the page title or url.
 
 ##### page.href: Uses `window.location.href`
@@ -116,7 +120,7 @@ You can also use data-* attr options but fire events in js. To do this, add the 
 <script>
   el.addEventListener('click', function() {
     trak.attrEvent.call(this);
-  }, true);
+  });
 </script>
 ```
 See this in use in the [trak demo](http://tech.tmw.co.uk/code/trak/demo.html).
