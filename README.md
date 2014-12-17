@@ -84,7 +84,7 @@ Data-* attrs can also define a custom trigger type, instead of `click`; `mouseov
 
 ```html
 <!-- Triggered on focus -->
-<a href="#pagehref" title="1 title" data-trak='{"category":"Test category","action":"Test action","label":"Test label","trigger":"focus"}'>Custom trigger type</a>
+<a href="#pagehref" title="1 title" data-trak='{"trigger":"focus","category":"Test category","action":"Test action","label":"Test label"}'>Custom trigger type</a>
 ```
 
 ### Wildcards
