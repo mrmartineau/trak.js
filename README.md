@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/tmwagency/trak.js.svg)](https://travis-ci.org/tmwagency/trak.js) [![Code Climate](https://codeclimate.com/github/tmwagency/trak.js.png)](https://codeclimate.com/github/tmwagency/trak.js)
+
 # trak.js - Universal analytics event tracking API wrapper
 Put simply, **trak.js** is a wrapper for any analytics API. By default it uses Google Universal Analytics but you can override this with the older ga.js or Google Tag Manager if you wish, or you can even add custom event trackers as well, instead of Google Analytics.
 
@@ -15,19 +16,22 @@ Put simply, **trak.js** is a wrapper for any analytics API. By default it uses G
 
 ## Usage:
 Include **trak.js** in your JavaScript bundle or add it to your HTML page like this:
+
 ```html
 <script type='application/javascript' src='/path/to/trak.js'></script>
 ```
+
 then run `trak.start();` when the DOM is ready (after version 0.3.0 this has changed, run `trak();` before version 0.3.0):
+
 ```js
 // Native JS
 document.addEventListener('DOMContentLoaded', function(e) {
-	trak.start();
+  trak.start();
 }
 
 // jQuery
 $(function(){
-	trak.start();
+  trak.start();
 });
 ```
 
@@ -73,18 +77,15 @@ el.addEventListener('mouseover', function() {
 
 ### Data-* attr implementation
 ```html
-<a href="#" data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}'>link</a>
-
-<!-- With an extended option -->
-<a href="#pagehref" title="1 title" data-trak='{"category":"Test category","action":"Test action","label":"Test label","eventName":"Event name test"}'>Data attr test #1</a>
+<a data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}' href="#">link</a>
 ```
 
 ### Custom trigger type (new as of v0.4.0)
-Data-* attrs can also define a custom trigger type, instead of `click`; `mouseover`, `touchstart`, `focus`, `blur` or any other valid event can be used to trigger a trak event.
+Data-* attrs can also define a custom trigger type instead of `click`. Now `mouseover`, `touchstart`, `focus`, `blur` or any other valid event can be used to trigger a trak event.
 
 ```html
 <!-- Triggered on focus -->
-<a href="#pagehref" title="1 title" data-trak='{"trigger":"focus","category":"Test category","action":"Test action","label":"Test label"}'>Custom trigger type</a>
+<a data-trak='{"trigger":"focus","category":"Test category","action":"Test action","label":"Test label"}' href="#pagehref">Custom trigger type</a>
 ```
 
 ### Wildcards
@@ -92,30 +93,30 @@ Wildcards can be used to specify certain options like the page title or url.
 
 ##### page.href: Uses `window.location.href`
 ```html
-<a href="#" data-trak='{"category":"Rating","action":"page.href","label":"Up"}'>link</a>
+<a data-trak='{"category":"Rating","action":"page.href","label":"Up"}' href="#">link</a>
 ```
 ##### page.title: Uses `document.title`
 ```html
-<a href="#" data-trak='{"category":"Rating","action":"page.title","label":"Up"}'>link</a>
+<a data-trak='{"category":"Rating","action":"page.title","label":"Up"}'href="#" >link</a>
 ```
 ##### link.href: Uses `this.href`
 ```html
-<a href="#" data-trak='{"category":"Rating","action":"link.href","label":"Up"}'>link</a>
+<a data-trak='{"category":"Rating","action":"link.href","label":"Up"}' href="#">link</a>
 ```
 ##### link.title: Uses `this.title`
 ```html
-<a href="#" data-trak='{"category":"Rating","action":"link.title","label":"Up"}'>link</a>
+<a data-trak='{"category":"Rating","action":"link.title","label":"Up"}' href="#">link</a>
 ```
 ##### referrer: Uses `document.referrer`
 ```html
-<a href="#" data-trak='{"category":"Rating","action":"document.referrer","label":"Up"}'>link</a>
+<a data-trak='{"category":"Rating","action":"document.referrer","label":"Up"}' href="#">link</a>
 ```
 
 #### Using data-* attr options with but fire event with js
 You can also use data-* attr options but fire events in js. To do this, add the relevant `data-trak` data and also a `data-trakwithjs` boolean attribute. This means that the event will only fire when you run it in your js. To run in your js, use the `trak.attrEvent` method like we have below:
 
 ```html
-<a href="#pagehref" data-trakwithjs data-trak='{"category":"Tracked with JS not attr call","action":"link.href","label":"this is a label"}'>trakwithjs</a>
+<a data-trakwithjs data-trak='{"category":"Tracked with JS not attr call","action":"link.href","label":"this is a label"}' href="#pagehref">trakwithjs</a>
 
 <script>
   el.addEventListener('click', function() {
@@ -163,8 +164,8 @@ Add any other event tracking providers. See below for example:
 
 ```js
 trak.options.additionalTypes = function() {
-	UDM.evq.push(['trackEvent', trak.clean(category), trak.clean(action)]); // trak.clean(label)
-	console.log('Fire additional event');
+  UDM.evq.push(['trackEvent', trak.clean(category), trak.clean(action)]); // trak.clean(label)
+  console.log('Fire additional event');
 }
 ```
 
