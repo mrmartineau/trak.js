@@ -14,7 +14,7 @@ Put simply, **trak.js** is a wrapper for any analytics API. By default it uses G
 ### NPM
 `npm install trak.js --save`
 
-## Usage:
+## Usage
 Include **trak.js** in your JavaScript bundle or add it to your HTML page like this:
 
 ```html
@@ -36,7 +36,7 @@ $(function(){
 ```
 
 # API Reference
-There are two main ways to use **trak.js**, in your js code or as data-* attributes in your markup.
+There are two main ways to use **trak.js**, in your js code or as `data-trak` attributes in your markup.
 
 ## JS implementation:
 ### trak.event({category: '', action: '', label: '' , value: '', nonInteraction: '', eventName: ''})
@@ -76,13 +76,13 @@ el.addEventListener('mouseover', function() {
 }
 ```
 
-### Data-* attr implementation
+### data-trak attr implementation
 ```html
 <a data-trak='{"category":"Rating","action":"Comparison notepad","label":"Up"}' href="#">link</a>
 ```
 
 ### Custom trigger type (new as of v0.4.0)
-Data-* attrs can also define a custom trigger type instead of `click`. Now `mouseover`, `touchstart`, `focus`, `blur` or any other valid event can be used to trigger a trak event.
+`data-trak` attrs can also define a custom trigger type instead of `click`. Now `mouseover`, `touchstart`, `focus`, `blur` or any other valid event can be used to trigger a trak event.
 
 ```html
 <!-- Triggered on focus -->
@@ -113,7 +113,7 @@ Wildcards can be used to specify certain options like the page title or url.
 <a data-trak='{"category":"Rating","action":"document.referrer","label":"Up"}' href="#">link</a>
 ```
 
-#### Using data-* attr options with but fire event with js
+#### Using `data-trak` attr options with but fire event with js
 You can also use data-* attr options but fire events in js. To do this, add the relevant `data-trak` data and also a `data-trakwithjs` boolean attribute. This means that the event will only fire when you run it in your js. To run in your js, use the `trak.attrEvent` method like we have below:
 
 ```html
