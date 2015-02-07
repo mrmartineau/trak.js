@@ -21,6 +21,12 @@ Include **trak.js** in your JavaScript bundle or add it to your HTML page like t
 <script type='application/javascript' src='/path/to/trak.js'></script>
 ```
 
+or with NPM/Browserify
+
+```js
+var trak = require('trak.js');
+```
+
 then run `trak.start();` when the DOM is ready (after version 0.3.0 this has changed, run `trak();` before version 0.3.0):
 
 ```js
