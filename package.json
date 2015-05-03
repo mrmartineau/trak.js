@@ -29,6 +29,7 @@
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
+    "jasmine-core": "^2.3.0",
     "load-grunt-tasks": "^1.0.0"
   },
   "scripts": {
