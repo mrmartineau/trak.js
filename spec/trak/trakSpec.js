@@ -45,7 +45,7 @@ describe("trak", function() {
 		var gaMock = {
 			category: 'CATEGORY',
 			action: 'ACTION',
-			label: 'LABEL' ,
+			label: 'page.title' ,
 			value: 1,
 			eventName: 'click'
 		};
@@ -64,7 +64,7 @@ describe("trak", function() {
 		it('should emit and construct an Object that matches gaMock and call ga() with it', function () {
 			trak.event(gaMock);
 
-			expect(ga).toHaveBeenCalledWith('send', 'event', 'category', 'action', 'label', 1, { nonInteraction: false });
+			expect(ga).toHaveBeenCalledWith('send', 'event', 'category', 'action', 'page_title', 1, { nonInteraction: false });
 			});
 
 
@@ -72,7 +72,7 @@ describe("trak", function() {
 			trak.options.trackType = '_gaq';
 			trak.event(gaMock);
 
-			expect(_gaq).toContain(['_trackEvent', 'category', 'action', 'label', 1]);
+			expect(_gaq).toContain(['_trackEvent', 'category', 'action', 'page_title', 1]);
 		});
 
 
@@ -83,7 +83,7 @@ describe("trak", function() {
 			expect(dataLayer).toContain({
 				eventCategory: 'category',
 				eventAction: 'action',
-				eventLabel: 'label' ,
+				eventLabel: 'page_title' ,
 				eventValue: 1,
 				event: 'click'
 			});
