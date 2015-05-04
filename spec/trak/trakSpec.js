@@ -1,5 +1,5 @@
 describe("trak", function() {
-	var trak = require('../../src/trak.js');
+	var trak = require('../../dist/trak.js');
 
 	beforeEach(function() {
 		global.document = {
