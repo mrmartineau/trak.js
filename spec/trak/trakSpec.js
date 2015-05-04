@@ -105,6 +105,5 @@ describe("trak", function() {
 				event: 'click'
 			});
 		});
-
 	});
 });
