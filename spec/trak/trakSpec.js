@@ -45,7 +45,7 @@ describe("trak", function() {
 	describe('Clean', function () {
 		it("should clean", function() {
 			expect(trak.clean('Clean this')).toEqual('clean_this');
-	});
+		});
 
 		it("should not clean", function() {
 			trak.options.clean = false;
@@ -82,7 +82,7 @@ describe("trak", function() {
 			trak.event(gaMock);
 
 			expect(ga).toHaveBeenCalledWith('send', 'event', 'category', 'action', 'page_title', 1, { nonInteraction: false });
-			});
+		});
 
 
 		it('should emit & push to the _gaq array', function () {

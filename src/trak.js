@@ -114,14 +114,14 @@ var trak = (function() {
 	 * Get all the options
 	 */
 	var getOptions = function (opts) {
-			return {
-				category       : opts && opts.category       || '',
-				action         : opts && opts.action         || '',
-				label          : opts && opts.label          || '',
-				value          : opts && opts.value          || 0,
-				nonInteraction : opts && opts.nonInteraction || false,
-				eventName      : opts && opts.eventName      || undefined
-			};
+		return {
+			category       : opts && opts.category       || '',
+			action         : opts && opts.action         || '',
+			label          : opts && opts.label          || '',
+			value          : opts && opts.value          || 0,
+			nonInteraction : opts && opts.nonInteraction || false,
+			eventName      : opts && opts.eventName      || undefined
+		};
 	};
 
 
