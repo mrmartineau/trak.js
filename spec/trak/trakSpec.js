@@ -10,7 +10,7 @@ describe("trak", function() {
 			location : {
 				href: 'http://google.com'
 			}
-		}
+		};
 	});
 
 	describe('Wildcards', function () {
@@ -25,6 +25,23 @@ describe("trak", function() {
 		it("returns the referrer", function() {
 			expect(trak.wildcard('referrer')).toEqual('http://google.com');
 		});
+
+		it("returns the link href", function() {
+			var test = {
+				href: 'http://google.com'
+			};
+			expect(trak.wildcard.call(test, 'link.href')).toEqual('http://google.com');
+		});
+
+		it("returns the link title", function() {
+			var test = {
+				title: 'Link title'
+			};
+			expect(trak.wildcard.call(test, 'link.title')).toEqual('Link title');
+		});
+	});
+
+
 	describe('Clean', function () {
 		it("should clean", function() {
 			expect(trak.clean('Clean this')).toEqual('clean_this');
