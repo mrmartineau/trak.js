@@ -25,7 +25,21 @@ describe("trak", function() {
 		it("returns the referrer", function() {
 			expect(trak.wildcard('referrer')).toEqual('http://google.com');
 		});
+	describe('Clean', function () {
+		it("should clean", function() {
+			expect(trak.clean('Clean this')).toEqual('clean_this');
 	});
+
+		it("should not clean", function() {
+			trak.options.clean = false;
+			expect(trak.clean('Clean this')).toEqual('Clean this');
+		});
+
+		afterEach(function(){
+			trak.options.clean = true;
+		});
+	});
+
 
 	xdescribe('trak.event', function () {
 		var gaMock = {
