@@ -2,13 +2,13 @@
 
 Put simply, **trak.js** is a wrapper for any analytics API. By default it uses Google Universal Analytics but you can override this with the older ga.js or Google Tag Manager if you wish, or you can even add custom event trackers as well, instead of Google Analytics.
 
-[![npm version](https://badge.fury.io/js/trak.js.svg)](http://badge.fury.io/js/trak.js) [![Build Status](https://travis-ci.org/tmwagency/trak.js.svg)](https://travis-ci.org/tmwagency/trak.js) [![Code Climate](https://codeclimate.com/github/tmwagency/trak.js.png)](https://codeclimate.com/github/tmwagency/trak.js) <br>
+[![npm version](https://badge.fury.io/js/trak.js.svg)](http://badge.fury.io/js/trak.js) [![Build Status](https://travis-ci.org/mrmartineau/trak.js.svg)](https://travis-ci.org/mrmartineau/trak.js) [![Code Climate](https://codeclimate.com/github/mrmartineau/trak.js.png)](https://codeclimate.com/github/mrmartineau/trak.js) <br>
 [![NPM](https://nodei.co/npm/trak.js.png?downloads=true)](https://nodei.co/npm/trak.js/)
 
 ## Getting the Library
 ### Direct downloads
-- [Minified](https://raw.githubusercontent.com/tmwagency/trak.js/master/dist/trak.min.js) (~481 B gzipped)
-- [Unminified](https://raw.githubusercontent.com/tmwagency/trak.js/master/dist/trak.js) (~1.7 KB gzipped)
+- [Minified](https://raw.githubusercontent.com/mrmartineau/trak.js/master/dist/trak.min.js) (~481 B gzipped)
+- [Unminified](https://raw.githubusercontent.com/mrmartineau/trak.js/master/dist/trak.js) (~1.7 KB gzipped)
 
 ### Bower
 `bower install trak`

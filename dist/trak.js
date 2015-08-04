@@ -1,4 +1,4 @@
-/* trak.js v0.5.0 | (c) 2015 @mrmartineau | https://github.com/tmwagency/trak.js
+/* trak.js v0.5.4 | (c) 2015 @mrmartineau | https://github.com/mrmartineau/trak.js
    Universal event tracking API. */
 var trak = (function() {
 	'use strict';
@@ -54,7 +54,7 @@ var trak = (function() {
 		}
 
 		if (settings.additionalTypes !== undefined) {
-			settings.additionalTypes();
+			settings.additionalTypes(opts);
 		}
 
 		if (settings.debug) {
