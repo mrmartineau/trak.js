@@ -52,7 +52,7 @@ var trak = (function() {
 		}
 
 		if (settings.additionalTypes !== undefined) {
-			settings.additionalTypes();
+			settings.additionalTypes(opts);
 		}
 
 		if (settings.debug) {

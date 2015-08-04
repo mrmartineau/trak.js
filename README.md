@@ -172,9 +172,9 @@ Default: `undefined`
 Add any other event tracking providers. See below for example:
 
 ```js
-trak.options.additionalTypes = function() {
-  UDM.evq.push(['trackEvent', trak.clean(category), trak.clean(action)]); // trak.clean(label)
-  console.log('Fire additional event');
+trak.options.additionalTypes = function(opts) {
+  UDM.evq.push(['trackEvent', trak.clean(opts.category), trak.clean(opts.action)]); // trak.clean(opts.label)
+  console.log('Fire additional event:', opts);
 }
 ```
 

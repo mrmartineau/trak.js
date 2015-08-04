@@ -168,11 +168,12 @@
 			trak.options.debug = true;
 			// console.log('trak options:', trak.options);
 			// trak.options.trackType = 'gtm';
+			//
 			// Add more tracking codes
-			// trak.options.additionalTypes = function() {
-			// 	// UDM.evq.push(['trackEvent', trak.clean(category), trak.clean(action)]); // trak.clean(label)
-			// 	console.log('Fire additional event');
-			// }
+			trak.options.additionalTypes = function(opts) {
+				// UDM.evq.push(['trackEvent', trak.clean(category), trak.clean(action)]); // trak.clean(label)
+				console.log('Fire additional event', opts);
+			}
 		});
 	</script>
 	</body>
