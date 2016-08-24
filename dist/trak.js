@@ -1,4 +1,4 @@
-/* trak.js v0.5.4 | (c) 2015 @mrmartineau | https://github.com/mrmartineau/trak.js
+/* trak.js v0.5.4 | (c) 2016 @mrmartineau | https://github.com/mrmartineau/trak.js
    Universal event tracking API. */
 var trak = (function() {
 	'use strict';
@@ -49,7 +49,8 @@ var trak = (function() {
 				'eventCategory' : category,
 				'eventAction'   : action,
 				'eventLabel'    : label,
-				'eventValue'    : value
+				'eventValue'    : value,
+				'eventNonInteraction': nonInteraction
 			});
 		}
 
