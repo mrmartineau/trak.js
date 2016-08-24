@@ -10,23 +10,13 @@ module.exports = function(grunt) {
 		 */
 		config : {
 			js : {
-				// <%=config.js.srcDir%>
-				srcDir   : 'src/',
-				// <%=config.js.distDir%>
-				distDir  : 'dist/',
-				// <%=config.js.filename%>
-				filename : 'trak'
+				srcDir   : 'src/', // <%=config.js.srcDir%>
+				distDir  : 'dist/', // <%=config.js.distDir%>
+				filename : 'trak' // <%=config.js.filename%>
 			}
 		},
 
 		banner: '/* <%= pkg.name %> v<%= pkg.version %> | (c) <%= grunt.template.today(\'yyyy\') %> @mrmartineau | <%= pkg.homepage %>\n   Universal event tracking API. */\n',
-
-		jshint: {
-			all: '<%=config.js.srcDir%><%=config.js.filename%>.js',
-			options: {
-				jshintrc: '.jshintrc'
-			}
-		},
 
 		uglify: {
 			options: {
@@ -74,20 +64,12 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-
-		// jasmine : {
-		// 	src : 'src/**/*.js',
-		// 	options : {
-		// 		specs : 'test/**/*-spec.js'
-		// 	}
-		// }
 	});
 
 	// Load all the grunt tasks
 	require('load-grunt-tasks')(grunt);
 
 	grunt.registerTask('default', [
-		'jshint',
 		'uglify',
 		'concat'
 	]);
@@ -95,10 +77,6 @@ module.exports = function(grunt) {
 	grunt.registerTask('serve', [
 		'connect',
 		'watch'
-	]);
-
-	grunt.registerTask('travis', [
-		'jshint'
 	]);
 
 };
