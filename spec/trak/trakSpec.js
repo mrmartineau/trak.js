@@ -102,7 +102,8 @@ describe("trak", function() {
 				eventAction: 'action',
 				eventLabel: 'page_title' ,
 				eventValue: 1,
-				event: 'click'
+				event: 'click',
+				eventNonInteraction: false
 			});
 		});
 	});
