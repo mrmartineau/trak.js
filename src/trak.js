@@ -47,7 +47,8 @@ var trak = (function() {
 				'eventCategory' : category,
 				'eventAction'   : action,
 				'eventLabel'    : label,
-				'eventValue'    : value
+				'eventValue'    : value,
+				'eventNonInteraction': nonInteraction
 			});
 		}
 
